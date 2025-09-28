@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: "3"
+tasks:
+  talos:
+    desc: Bootstrap the Talos cluster
+    dir: "{{ .TALOS_DIR }}"
+    cmds:
+      - until talhelper gencommand bootstrap | bash; do sleep 10; done
+      - until talhelper gencommand kubeconfig --extra-flags="{{.ROOT_DIR}} --force" | bash; do sleep 10; done
+    preconditions:
+      - test -f {{ .TALOS_DIR }}/talconfig.yaml 
+      - which talhelper talosctl
+  network:
+    desc: Bootstraps the Kubernetes cluster's network
+    cmd: helm --kubeconfig {{ .KUBE_CONFIG }} install cilium cilium/cilium --set ipam.mode=kubernetes --set kubeProxyReplacement=true --set operator.replicas=1 --set securityContext.capabilities.ciliumAgent="{CHOWN,KILL,NET_ADMIN,NET_RAW,IPC_LOCK,SYS_ADMIN,SYS_RESOURCE,DAC_OVERRIDE,FOWNER,SETGID,SETUID}" --set securityContext.capabilities.cleanCiliumState="{NET_ADMIN,SYS_ADMIN,SYS_RESOURCE}" --set cgroup.autoMount.enabled=false --set cgroup.hostRoot=/sys/fs/cgroup --set l2announcements.enabled=true --set externalIPs.enabled=true --set ingressController.enabled=true --set ingressController.default=true --set k8sServiceHost=localhost --set k8sServicePort=7445
+    preconditions:
+      - test -f {{ .KUBE_CONFIG }}
+      - which helm

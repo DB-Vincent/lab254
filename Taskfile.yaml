@@ -1,0 +1,13 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: "3"
+includes:
+  talos: .taskfiles/talos.yaml
+vars:
+  TALOS_DIR: "{{ .ROOT_DIR }}/talos"
+  TALOS_CONFIG: "{{ .TALOS_DIR }}/clusterconfig/talosconfig"
+  KUBE_CONFIG: "{{ .TALOS_DIR }}/clusterconfig/kubeconfig"
+tasks:
+  default:
+    silent: true
+    cmds:
+      - task -l

@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: "3"
+tasks:
+  generate-config:
+    desc: Generate Talos node configuration
+    dir: "{{ .TALOS_DIR }}"
+    cmd: talhelper genconfig
+    preconditions:
+      - test -f {{.TALOS_DIR}}/talconfig.yaml
+      - which talhelper
+  apply-config:
+    desc: Apply Talos node configuration to a node
+    dir: "{{ .TALOS_DIR }}"
+    cmd: talhelper gencommand apply --node {{ .IP }} --extra-flags="--insecure" | bash
+    requires:
+      vars:
+        - IP
+    preconditions:
+      - test -f {{ .TALOS_CONFIG }}
+      - which talhelper talosctl
+  fetch-kubeconfig:
+    desc: Fetches the cluster's kubeconfig file
+    dir: "{{ .TALOS_DIR }}"
+    cmd: until talhelper gencommand kubeconfig --extra-flags="--force" | bash; do sleep 10; done 
+    preconditions:
+      - which talhelper talosctl
+  reset-cluster:
+    desc: Resets nodes in cluster
+    dir: "{{ .TALOS_DIR }}"
+    prompt: This will destroy your cluster and reset the nodes back to maintenance mode... continue?
+    cmd: talhelper gencommand reset --extra-flags="--reboot --system-labels-to-wipe STATE --system-labels-to-wipe EPHEMERAL --graceful=false --wait=false" | bash
+    preconditions:
+      - which talhelper talosctl
