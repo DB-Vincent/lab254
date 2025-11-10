@@ -7,6 +7,9 @@ vars:
   TALOS_DIR: "{{ .ROOT_DIR }}/talos"
   TALOS_CONFIG: "{{ .TALOS_DIR }}/clusterconfig/talosconfig"
   KUBE_CONFIG: "{{ .TALOS_DIR }}/clusterconfig/kubeconfig"
+  AGE_DIR: ~/.config/sops/age
+  AGE_FILE: "{{.AGE_DIR}}/keys.txt"
+  SOPS_CONFIG_FILE: "{{.ROOT_DIR}}/.sops.yaml"
 tasks:
   default:
     silent: true

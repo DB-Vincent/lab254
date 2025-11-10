@@ -15,5 +15,5 @@ Lab254 is my personal homelab running Kubernetes
 4. Wait for the machines to reboot..
 5. Run `task bootstrap:talos` to bootstrap your Talos cluster
 6. Run `task talos:fetch-kubeconfig` to retrieve the cluster's kubeconfig file 
-7. Set the retrieved kubeconfig file as the one `kubectl` should use: `export KUBECONFIG=$(pwd)/kubeconfig`
+7. Set the retrieved kubeconfig file as the one `kubectl` should use: `export KUBECONFIG=$(pwd)/talos/clusterconfig/kubeconfig`
 8. Run `task bootstrap:network` to set up Cilium as the CNI.
