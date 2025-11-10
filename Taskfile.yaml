@@ -2,6 +2,7 @@
 version: "3"
 includes:
   talos: .taskfiles/talos.yaml
+  bootstrap: .taskfiles/bootstrap.yaml
 vars:
   TALOS_DIR: "{{ .ROOT_DIR }}/talos"
   TALOS_CONFIG: "{{ .TALOS_DIR }}/clusterconfig/talosconfig"

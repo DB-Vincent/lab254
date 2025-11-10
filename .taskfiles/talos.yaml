@@ -21,7 +21,7 @@ tasks:
   fetch-kubeconfig:
     desc: Fetches the cluster's kubeconfig file
     dir: "{{ .TALOS_DIR }}"
-    cmd: until talhelper gencommand kubeconfig --extra-flags="--force" | bash; do sleep 10; done 
+    cmd: until talhelper gencommand kubeconfig --extra-flags="{{.TALOS_DIR}}/clusterconfig/ --force" | bash; do sleep 10; done 
     preconditions:
       - which talhelper talosctl
   reset-cluster:
