@@ -1,0 +1,41 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: "3"
+tasks:
+  setup:
+    desc: Bootstraps Flux into a Kubernetes cluster
+    prompt: Bootstrap Flux into the cluster... continue?
+    cmds:
+      - kubectl apply --kubeconfig {{.KUBECONFIG_FILE}} --server-side --kustomize {{.KUBERNETES_DIR}}/bootstrap
+      - cat {{.AGE_FILE}} | kubectl -n flux-system create --kubeconfig {{.KUBECONFIG_FILE}} secret generic sops-age --from-file=age.agekey=/dev/stdin
+      - sops --decrypt {{.KUBERNETES_DIR}}/flux/vars/cluster-secrets.sops.yaml | kubectl apply --kubeconfig {{.KUBECONFIG_FILE}} --server-side --filename -
+      - kubectl apply --kubeconfig {{.KUBECONFIG_FILE}} --server-side --filename {{.KUBERNETES_DIR}}/flux/vars/cluster-settings.yaml
+      - kubectl apply --kubeconfig {{.KUBECONFIG_FILE}} --server-side --kustomize {{.KUBERNETES_DIR}}/flux/config
+      - task: github-deploy-key
+    preconditions:
+      - msg: Missing kubeconfig
+        sh: test -f {{.KUBECONFIG_FILE}}
+      - msg: Missing Sops Age key file
+        sh: test -f {{.AGE_FILE}}
+  github-deploy-key:
+    cmds:
+      - kubectl create namespace flux-system --dry-run=client -o yaml | kubectl apply --filename -
+      - sops --decrypt {{.KUBERNETES_DIR}}/bootstrap/github-deploy-key.sops.yaml | kubectl apply --server-side --filename -
+    preconditions:
+      - msg: Missing kubeconfig
+        sh: test -f {{.KUBECONFIG_FILE}}
+      - msg: Missing Sops Age key file
+        sh: test -f {{.AGE_FILE}}
+      - msg: Missing Github deploy key file
+        sh: test -f {{.KUBERNETES_DIR}}/bootstrap/github-deploy-key.sops.yaml
+  uninstall:
+    desc: Uninstall Flux from the cluster
+    prompt: Uninstall Flux from the cluster... continue?
+    cmds:
+      - kubectl delete --kubeconfig {{.KUBECONFIG_FILE}} --kustomize {{.KUBERNETES_DIR}}/bootstrap
+      - cat {{.AGE_FILE}} | kubectl -n flux-system delete --kubeconfig {{.KUBECONFIG_FILE}} secret generic sops-age --from-file=age.agekey=/dev/stdin
+      - sops --decrypt {{.KUBERNETES_DIR}}/flux/vars/cluster-secrets.sops.yaml | kubectl delete --kubeconfig {{.KUBECONFIG_FILE}} --filename -
+      - kubectl delete --kubeconfig {{.KUBECONFIG_FILE}} --filename {{.KUBERNETES_DIR}}/flux/vars/cluster-settings.yaml
+      - kubectl delete --kubeconfig {{.KUBECONFIG_FILE}} --kustomize {{.KUBERNETES_DIR}}/flux/config     
+    preconditions:
+      - msg: Missing kubeconfig
+        sh: test -f {{.KUBECONFIG_FILE}}

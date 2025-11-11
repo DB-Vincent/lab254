@@ -1,0 +1,13 @@
+creation_rules:
+  - path_regex: talos/.*\.sops\.ya?ml
+    key_groups:
+      - age:
+          - "age15s5na3nnzeyvyc7defn92sg80nvt02usjyglgjjgk7xwsye79s3q39e7e0"
+  - path_regex: .*\.sops\.ya?ml
+    encrypted_regex: "^(data|stringData)$"
+    key_groups:
+      - age:
+          - "age15s5na3nnzeyvyc7defn92sg80nvt02usjyglgjjgk7xwsye79s3q39e7e0"
+stores:
+  yaml:
+    indent: 2

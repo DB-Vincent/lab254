@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: github-deploy-key
+  namespace: flux-system
+type: Opaque
+data:
+  identity: ENC[AES256_GCM,data:pjfZbInOlYtrYH0GQaDAaOgNJyOVG3HRxplS/AACZdFHsts+16IfglHghAcb+K0VE8HgEof4LdomoRhflIxiMG8X7yGZQPDEtRbVwOntkNgO0RCA7H3xtqbtWudh5pGN5kHPnAlKDbSDR/bOvBuhg8dS7mhAtztPCKmRHGh5hdNOs3qpMwrpgSMHxn0QazdaZg2X/luh+h6kcWtlAtFlUilae45e2sm8BJlAUpIiUDEpdH+HLG2kGxDha2CqZgR1pwghGCyA/KthoaNGp2sawmoMkTJ9YkRbGiolTn0xGEQG4NMB3tNuywTStWe5AB5yClPzOfCiBVYT4NOfhN1UpWnh5lDt3zhtxe/QelbWDx/HcrV0gyKNU2WgYWbLr3t7lxvfV90NczGDzBU1wMTSzBtxUwSFLQDVV3vYgqH6Z8wyBtjUpRpcx4+do1fRh3svZw6XfVExG3LMu2jeSTGhl6jZAC2YL+SzkMrPeFQBoj+iupchB5pLDuQFgghYSmdB74/olsa4zt56cbSHwjdtCeyYfUw0zYqylSTVod0bRS5QhvHcQlvk9N9Mar8QOAQnLv1LneHYWWP3MPWEa5XiU3L33ot5tcHAGzl3nQC7YVo7Lay6qJHdpN4e/rCY46IvWntqM8s6D+tW0XfNUMZadtjt1HaSZG57HeOLkJ1wC+DZYz7adtegt1W8sTORJ4ehUlwfG5Z4xOeBgRAv+e9zm1AbrgA=,iv:/orL9kRheX4/2k+IveF7TQq0YgInr43RzY0BXEKLfao=,tag:DOlSJDMd6iMKDkfIVmfpDA==,type:str]
+  known_hosts: ENC[AES256_GCM,data:gXFA+Ns4s7JSrY8nzBAvYBsuDjMCvAYd32F89X8pZ5wEVv3iU/JYHBst4UQ8WFp9R6F/C7bZ5dxbxFHWY+momQvXsqZdfXuGpIpZ+Z/otn2phKDYXAWMSzY8+N6ryt6iMYMNDZqcZ8vT2xlsfwFQgRYo+RW8bD1UfgXZbg==,iv:D+mwsJQcuvy21u4b9gYHnL3D3xWaJplEy0gWut4Ba6I=,tag:QtdA0WpfsdNxL+Yqa1LGxQ==,type:str]
+sops:
+  kms: []
+  gcp_kms: []
+  azure_kv: []
+  hc_vault: []
+  age:
+    - recipient: age15s5na3nnzeyvyc7defn92sg80nvt02usjyglgjjgk7xwsye79s3q39e7e0
+      enc: |
+        -----BEGIN AGE ENCRYPTED FILE-----
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBJY25ldjhEdTJTU3pWb2RQ
+        elUya0N4TXBvdmxEOUlCa1YzeVV6RXlWVHdvCmdpOEpnczdHVkZyN1BhZjdQNSs2
+        VFc4QWQ0V3dWa1lZSExraDV3N1pDUGcKLS0tIEYzNlVVZlFoS0xrdFNNdERpdHN6
+        eWxtVWNRVysyTDNUbWRuMVFraXM5Y1UKzpditNmUzhJ66KWJQoIQCeUmh+CR0fuh
+        i7XmORqa2XDII8mZvJ7AQj+jZr9Ok2vNd0lOvYexfaBlDKRBf8SPTw==
+        -----END AGE ENCRYPTED FILE-----
+  lastmodified: "2025-11-11T17:47:51Z"
+  mac: ENC[AES256_GCM,data:5AuzA0kmmliKp8DeDbJFmgs8MA14hpVIXcEkQ8/iz1Lu3VI2BoNGAHDEcQWyEtu9MrPmleVcfyy4Q4ydwR33KfhC5bsNzLk5DToTmbPTDtYck7ECXAz0nVSoz7HTA61Tz/+OQJjlXmJukh+nqsTpqEYiKkdHDSN39tIB8FDnXpQ=,iv:+OCmiKOevmXi1BUhBdmq89F56c4shXu5jJfzvNEi+xc=,tag:/S+ASaYUKQa+LTx9/QA2Xw==,type:str]
+  pgp: []
+  encrypted_regex: ^(data|stringData)$
+  version: 3.9.4

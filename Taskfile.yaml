@@ -3,10 +3,14 @@ version: "3"
 includes:
   talos: .taskfiles/talos.yaml
   bootstrap: .taskfiles/bootstrap.yaml
+  sops: .taskfiles/sops.yaml
+  flux: .taskfiles/flux.yaml
 vars:
   TALOS_DIR: "{{ .ROOT_DIR }}/talos"
   TALOS_CONFIG: "{{ .TALOS_DIR }}/clusterconfig/talosconfig"
-  KUBE_CONFIG: "{{ .TALOS_DIR }}/clusterconfig/kubeconfig"
+  KUBERNETES_DIR: "{{.ROOT_DIR}}/kubernetes"
+  KUBERNETES_APPS_DIR: "{{.KUBERNETES_DIR}}/apps"
+  KUBECONFIG_FILE: "{{ .TALOS_DIR }}/clusterconfig/kubeconfig"
   AGE_DIR: ~/.config/sops/age
   AGE_FILE: "{{.AGE_DIR}}/keys.txt"
   SOPS_CONFIG_FILE: "{{.ROOT_DIR}}/.sops.yaml"

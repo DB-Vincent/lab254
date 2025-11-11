@@ -1,0 +1,34 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: "3"
+tasks:
+  setup:
+    desc: Setup age key for sops
+    cmds:
+      - age-keygen -o age.agekey
+      - mkdir -p {{.AGE_DIR}}
+      - mv age.agekey {{.AGE_FILE}}
+    status:
+      - test -f {{.AGE_FILE}}
+  encrypt:
+    desc: encrypt sops file, include -- before path to file. E.g. "task sops:encrypt -- file.yaml"
+    cmds:
+      - sops --encrypt --in-place {{.CLI_ARGS}}
+  decrypt:
+    desc: decrypt sops file, include -- before path to file. E.g. "task sops:decrypt -- file.yaml"
+    cmds:
+      - sops --decrypt --in-place {{.CLI_ARGS}}
+  list:
+    desc: List all sops files
+    cmds:
+      - find . -name '*.sops.yaml' | while read -r file; do echo "${file}"; done
+  encrypt-all:
+    desc: Encrypt all Kubernetes SOPS secrets that are not already encrypted
+    cmds:
+      - for: {var: file}
+        task: .encrypt-file
+        vars:
+          file: "{{.ITEM}}"
+    vars:
+      file:
+        sh: |
+          find "{{.KUBERNETES_DIR}}" -type f -name "*.sops.*" -exec grep -L "ENC\[AES256_GCM" {} \;
