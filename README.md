@@ -6,6 +6,11 @@ Lab254 is my personal homelab running Kubernetes
 
 - `talosctl`
 - `talhelper`
+- `task`
+- `kubectl`
+- `helm`
+- `sops`
+- `age`
 
 ## Setting up the cluster
 

@@ -25,9 +25,9 @@ tasks:
     desc: Encrypt all Kubernetes SOPS secrets that are not already encrypted
     cmds:
       - for: {var: file}
-        task: .encrypt-file
+        task: encrypt
         vars:
-          file: "{{.ITEM}}"
+          CLI_ARGS: "{{.ITEM}}"
     vars:
       file:
         sh: |

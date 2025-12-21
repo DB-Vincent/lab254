@@ -2,12 +2,12 @@ creation_rules:
   - path_regex: talos/.*\.sops\.ya?ml
     key_groups:
       - age:
-          - "age15s5na3nnzeyvyc7defn92sg80nvt02usjyglgjjgk7xwsye79s3q39e7e0"
+          - "age1rf27l7lxj2dd78ah4nqv63ezqm5l2zlwzlqjx4y05pnvfy5tsu6s6ye0e6"
   - path_regex: .*\.sops\.ya?ml
     encrypted_regex: "^(data|stringData)$"
     key_groups:
       - age:
-          - "age15s5na3nnzeyvyc7defn92sg80nvt02usjyglgjjgk7xwsye79s3q39e7e0"
+          - "age1rf27l7lxj2dd78ah4nqv63ezqm5l2zlwzlqjx4y05pnvfy5tsu6s6ye0e6"
 stores:
   yaml:
     indent: 2
