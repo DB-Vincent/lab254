@@ -4,6 +4,5 @@ metadata:
   name: openebs
   namespace: flux-system
 spec:
-  type: oci
   interval: 5m
-  url: oci://ghcr.io/openebs/charts
+  url: https://openebs.github.io/openebs
