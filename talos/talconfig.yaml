@@ -73,7 +73,6 @@ patches:
   - "@./patches/global/hostdns.yaml"
   - "@./patches/global/kubelet.yaml"
   - "@./patches/global/cni.yaml"
-  - "@./patches/global/mayastor.yaml"
 controlPlane:
   patches:
     - "@./patches/controller/api-access.yaml"
