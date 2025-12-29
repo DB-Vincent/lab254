@@ -18,12 +18,30 @@ tasks:
     preconditions:
       - test -f {{ .TALOS_CONFIG }}
       - which talhelper talosctl
+  bootstrap:
+    desc: Bootstrap the Talos cluster
+    dir: "{{ .TALOS_DIR }}"
+    cmds:
+      - until talhelper gencommand bootstrap | bash; do sleep 10; done
+      - until talhelper gencommand kubeconfig --extra-flags="{{.ROOT_DIR}} --force" | bash; do sleep 10; done
+    preconditions:
+      - test -f {{ .TALOS_DIR }}/talconfig.yaml 
+      - which talhelper talosctl
   fetch-kubeconfig:
     desc: Fetches the cluster's kubeconfig file
     dir: "{{ .TALOS_DIR }}"
     cmd: until talhelper gencommand kubeconfig --extra-flags="{{.TALOS_DIR}}/clusterconfig  --force" | bash; do sleep 10; done 
     preconditions:
       - which talhelper talosctl
+  deploy-cilium:
+    desc: Deploys cilium to the cluster
+    cmds:
+      - kubectl label ns kube-system pod-security.kubernetes.io/enforce=privileged
+      - helm repo add cilium https://helm.cilium.io/
+      - helm --kubeconfig {{ .KUBECONFIG_FILE }} install cilium --namespace kube-system cilium/cilium --set ipam.mode=kubernetes --set kubeProxyReplacement=true --set operator.replicas=1 --set securityContext.capabilities.ciliumAgent="{CHOWN,KILL,NET_ADMIN,NET_RAW,IPC_LOCK,SYS_ADMIN,SYS_RESOURCE,DAC_OVERRIDE,FOWNER,SETGID,SETUID}" --set securityContext.capabilities.cleanCiliumState="{NET_ADMIN,SYS_ADMIN,SYS_RESOURCE}" --set cgroup.autoMount.enabled=false --set cgroup.hostRoot=/sys/fs/cgroup --set l2announcements.enabled=true --set externalIPs.enabled=true --set ingressController.enabled=true --set ingressController.default=true --set k8sServiceHost=localhost --set k8sServicePort=7445
+    preconditions:
+      - test -f {{ .KUBECONFIG_FILE }}
+      - which helm kubectl
   reset-cluster:
     desc: Resets nodes in cluster
     dir: "{{ .TALOS_DIR }}"

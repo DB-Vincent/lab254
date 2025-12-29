@@ -2,7 +2,6 @@
 version: "3"
 includes:
   talos: .taskfiles/talos.yaml
-  bootstrap: .taskfiles/bootstrap.yaml
   sops: .taskfiles/sops.yaml
   flux: .taskfiles/flux.yaml
 vars:
