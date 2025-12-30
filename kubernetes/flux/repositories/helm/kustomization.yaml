@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - spegel.yaml
   - rook.yaml
+  - bjw-s.yaml

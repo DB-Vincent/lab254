@@ -1,0 +1,155 @@
+controllers:
+  main:
+    containers:
+      glance:
+        image:
+          repository: glanceapp/glance
+          tag: v0.8.4
+service:
+  main:
+    controller: main
+    ports:
+      http:
+        port: 8080
+# ingress:
+#   main:
+#     className: nginx
+#     hosts:
+#       - host: glance.k8s.lab.lan
+#         paths:
+#           - path: /
+#             pathType: Prefix
+#             service:
+#               identifier: main
+#               port: http
+persistence:
+  config:
+    enabled: true
+    type: configMap
+    name: glance-config
+    globalMounts:
+      - path: /app/config
+configMaps:
+  config:
+    enabled: true
+    data:
+      glance.yml: |-
+        pages:
+        - name: Home
+          hide-desktop-navigation: true
+          columns:
+          - size: small
+            widgets:
+            - type: monitor
+              cache: 1m
+              title: Services
+              sites:
+              - title: Jackett
+                url: http://jackett.k8s.lab.lan/UI/Dashboard
+              - title: Sonarr
+                url: http://sonarr.k8s.lab.lan
+              - title: Radarr
+                url: http://radarr.k8s.lab.lan
+              - title: Overseerr
+                url: http://overseerr.k8s.lab.lan
+              - title: Immich
+                url: http://immich.k8s.lab.lan
+            - type: twitch-channels
+              channels:
+              - theprimeagen
+              - gdolphn
+              - xisuma
+
+          - size: full
+            widgets:
+            - type: videos
+              channels:
+              - UCR-DXc1voovS8nhAvccRZhg # Jeff Geerling
+              - UCBJycsmduvYEL83R_U4JriQ # Marques Brownlee
+              - UCL5W9kuKIQtXEVAxSadB2BQ # XisumaTwo
+              - UCU9pX8hKcrx06XfOB-VQLdw # Xisuma
+              - UCLLpxcworT8275nBXODXyqw # M539 Restorations
+              - UCFKDEp9si4RmHFWJW1vYsMA # EthosLab
+            - type: rss
+              limit: 10
+              collapse-after: 3
+              cache: 12h
+              feeds:
+              - url: https://selfh.st/rss/
+                title: selfh.st
+                limit: 4
+              - url: https://www.techradar.com/rss
+                title: TechRadar
+                limit: 4
+              - url: https://theverge.com/rss/index.html
+                title: The Verge
+                limit: 4
+            - type: group
+              widgets:
+              - type: reddit
+                subreddit: kubernetes
+                show-thumbnails: true
+              - type: reddit
+                subreddit: selfhosted
+                show-thumbnails: true
+              - type: reddit
+                subreddit: cryptocurrency
+                show-thumbnails: true
+              - type: reddit
+                subreddit: formula1
+                show-thumbnails: true
+
+          - size: small
+            widgets:
+            - type: weather
+              location: Antwerp, Belgium
+              units: metric # alternatively "imperial"
+              hour-format: 24h # alternatively "24h"
+              # Optionally hide the location from being displayed in the widget
+              # hide-location: true
+
+            - type: markets
+              # The link to go to when clicking on the symbol in the UI,
+              # {SYMBOL} will be substituded with the symbol for each market
+              symbol-link-template: https://www.tradingview.com/symbols/{SYMBOL}/news
+              markets:
+              - symbol: BTC-USD
+                name: Bitcoin
+              - symbol: ETH-USD
+                name: Ethereum
+              - symbol: SOL-USD
+                name: Solana
+              - symbol: XRP-USD
+                name: Ripple
+
+            - type: bookmarks
+              groups:
+              - title: Home
+                color: 134 70 50
+                links:
+                - title: HomeAssistant
+                  url: http://homeassistant:8123
+              - title: Entertainment
+                color: 10 70 50
+                links:
+                - title: Reddit
+                  url: https://reddit.com/
+                - title: Tweakers
+                  url: https://tweakers.net/
+                - title: YouTube
+                  url: https://youtube.com/
+                - title: Twitch
+                  url: https://twitch.com/
+              - title: Infrastructure
+                color: 200 50 50
+                links:
+                - title: VCE-01
+                  url: https://vce-01.lab.lan/
+                - title: ESX-01
+                  url: https://esx-01.lab.lan/
+                - title: ESX-02
+                  url: https://esx-02.lab.lan/
+                - title: iDRAC-01
+                  url: https://idrac-01.lab.lan/
+                - title: iDRAC-02
+                  url: https://idrac-02.lab.lan/
