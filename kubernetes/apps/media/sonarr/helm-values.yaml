@@ -1,0 +1,68 @@
+controllers:
+  main:
+    strategy: RollingUpdate
+    replicas: 1
+    containers:
+      main:
+        image:
+          repository: ghcr.io/linuxserver/sonarr
+          tag: 4.0.12
+          pullPolicy: IfNotPresent
+        env:
+          PUID: 1000
+          PGID: 100
+          TZ: UTC
+service:
+  main:
+    controller: main
+    type: ClusterIP
+    ports:
+      http:
+        port: 8989
+# ingress:
+#   main:
+#     className: nginx
+#     annotations:
+#       gethomepage.dev/enabled: '"true"'
+#       gethomepage.dev/name: "Sonarr"
+#       gethomepage.dev/description: "TV Series management tool"
+#       gethomepage.dev/group: "Media"
+#       gethomepage.dev/icon: "sonarr.png"
+#       gethomepage.dev/widget.type: "sonarr"
+#       gethomepage.dev/widget.url: "http://sonarr.k8s.lab.lan"
+#       gethomepage.dev/widget.key: "2079ae12a2874eb8a37ed3bb3c4a9633"
+#     hosts:
+#       - host: sonarr.k8s.lab.lan
+#         paths:
+#           - path: /
+#             pathType: Prefix
+#             service:
+#               identifier: main
+#               port: http
+persistence:
+  config:
+    enabled: true
+    storageClass: "ceph-block"
+    size: 1Gi
+    accessMode: ReadWriteOnce
+    advancedMounts:
+      main:
+        main:
+          - path: /config
+  # data:
+  #   enabled: true
+  #   type: nfs
+  #   server: 172.16.2.23
+  #   path: /Plex
+  #   advancedMounts:
+  #     main:
+  #       main:
+  #         - path: /data/media
+probes:
+  liveness:
+    enabled: true
+    custom: true
+    spec:
+      httpGet:
+        path: /
+        port: http
