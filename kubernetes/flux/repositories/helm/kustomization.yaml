@@ -4,3 +4,4 @@ resources:
   - spegel.yaml
   - rook.yaml
   - bjw-s.yaml
+  - longhorn.yaml

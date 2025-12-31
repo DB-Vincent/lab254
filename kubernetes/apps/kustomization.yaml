@@ -4,4 +4,4 @@ resources:
   - ./default
   - ./kube-system
   - ./media
-  - ./rook-ceph
+  - ./longhorn-system  

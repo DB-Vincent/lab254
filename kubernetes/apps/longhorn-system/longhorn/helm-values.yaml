@@ -1,0 +1,17 @@
+# Longhorn Helm values
+# See https://longhorn.io/docs/latest/references/settings/ for available settings
+
+defaultSettings:
+  # Backup settings
+  backupTarget: ""
+  backupTargetCredentialSecret: ""
+  
+  # Storage settings
+  defaultDataPath: /var/lib/longhorn
+  
+  # Replica settings
+  defaultReplicaCount: 3
+  
+  # Engine settings
+  defaultEngineImage: ""
+
