@@ -4,4 +4,4 @@ resources:
   - ./default
   - ./kube-system
   - ./media
-  - ./storage
+  - ./rook-ceph
