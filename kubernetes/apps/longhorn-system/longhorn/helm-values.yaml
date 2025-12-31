@@ -10,7 +10,7 @@ defaultSettings:
   defaultDataPath: /var/lib/longhorn
   
   # Replica settings
-  defaultReplicaCount: 3
+  defaultReplicaCount: "3"
   
   # Engine settings
   defaultEngineImage: ""
