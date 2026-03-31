@@ -1,0 +1,17 @@
+machine:
+  install:
+    extensions:
+      - image: ghcr.io/siderolabs/iscsi-tools:v1.11.0
+      - image: ghcr.io/siderolabs/nfs-utils:v1.11.0
+  kernel:
+    modules:
+      - name: iscsi_tcp
+  kubelet:
+    extraMounts:
+      - destination: /var/lib/longhorn
+        type: bind
+        source: /var/lib/longhorn
+        options:
+          - bind
+          - rshared
+          - rw
