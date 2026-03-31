@@ -1,8 +1,4 @@
 machine:
-  install:
-    extensions:
-      - image: ghcr.io/siderolabs/iscsi-tools:v1.11.0
-      - image: ghcr.io/siderolabs/nfs-utils:v1.11.0
   kernel:
     modules:
       - name: iscsi_tcp
