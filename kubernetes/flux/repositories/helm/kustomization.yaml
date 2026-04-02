@@ -5,3 +5,4 @@ resources:
   - rook.yaml
   - bjw-s.yaml
   - longhorn.yaml
+  - cilium.yaml
