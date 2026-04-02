@@ -11,17 +11,17 @@ service:
     ports:
       http:
         port: 8080
-# ingress:
-#   main:
-#     className: nginx
-#     hosts:
-#       - host: glance.k8s.lab.lan
-#         paths:
-#           - path: /
-#             pathType: Prefix
-#             service:
-#               identifier: main
-#               port: http
+ingress:
+  main:
+    className: cilium 
+    hosts:
+      - host: glance.k8s.lab.lan
+        paths:
+          - path: /
+            pathType: Prefix
+            service:
+              identifier: main
+              port: http
 persistence:
   config:
     enabled: true
