@@ -1,21 +1,6 @@
-cgroup:
-  autoMount:
-    enabled: false
-  hostRoot: /sys/fs/cgroup
-externalIPs:
-  enabled: true
-ingressController:
-  default: true
-  enabled: true
 ipam:
   mode: kubernetes
-k8sServiceHost: localhost
-k8sServicePort: 7445
 kubeProxyReplacement: true
-l2announcements:
-  enabled: true
-operator:
-  replicas: 1
 securityContext:
   capabilities:
     ciliumAgent:
@@ -34,3 +19,60 @@ securityContext:
     - NET_ADMIN
     - SYS_ADMIN
     - SYS_RESOURCE
+  privileged: true
+  allowPrivilegeEscalation: true
+  runAsNonRoot: false
+  seccompProfile:
+    type: Unconfined
+cgroup:
+  autoMount:
+    enabled: false
+  hostRoot: /sys/fs/cgroup
+k8sServiceHost: localhost
+k8sServicePort: 7445
+l2announcements:
+  enabled: true
+externalIPs:
+  enabled: true
+k8sClientRateLimit:
+  qps: 50
+  burst: 100
+ingressController:
+  enabled: true
+  loadbalancerMode: shared
+  service:
+    type: LoadBalancer
+    hostPort:
+      enabled: true
+      http: 80
+      https: 443
+  securityContext:
+    privileged: true
+    allowPrivilegeEscalation: true
+    runAsNonRoot: false
+    seccompProfile:
+      type: Unconfined
+  enforeHttps: false
+podSecurityPolicy:
+  enabled: true
+  privileged: true
+  allowPrivilegeEscalation: true
+  hostNetwork: true
+  hostPID: true
+  hostIPC: true
+  volumes:
+    - configMap
+    - secret
+    - emptyDir
+    - hostPath
+    - persistentVolumeClaim
+  allowedCapabilities:
+    - '*'
+  allowedHostPaths:
+    - pathPrefix: "/sys/fs/bpf"
+    - pathPrefix: "/var/run/cilium"
+    - pathPrefix: "/var/lib/cilium"
+    - pathPrefix: "/proc"
+    - pathPrefix: "/lib/modules"
+routingMode: tunnel
+enableIPv4Masquerade: true
