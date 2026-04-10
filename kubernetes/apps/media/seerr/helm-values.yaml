@@ -11,6 +11,12 @@ controllers:
           TZ: UTC
           PORT: 5055
 
+defaultPodOptions:
+  securityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+
 service:
   main:
     controller: main
