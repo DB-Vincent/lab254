@@ -3,11 +3,7 @@ kind: CiliumL2AnnouncementPolicy
 metadata:
   name: policy
 spec:
-  nodeSelector:
-    matchExpressions:
-      - key: node-role.kubernetes.io/control-plane
-        operator: DoesNotExist
   interfaces:
-  - ^eth[0-9]+
+  - ^e(th|n).*
   externalIPs: true
   loadBalancerIPs: true
