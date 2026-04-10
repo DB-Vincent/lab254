@@ -39,11 +39,14 @@ k8sClientRateLimit:
   burst: 100
 ingressController:
   enabled: true
+  default: true
   loadbalancerMode: shared
   service:
     type: LoadBalancer
     hostPort:
-      enabled: true
+      # HostPorts can short-circuit the datapath and make debugging harder.
+      # Rely on the LoadBalancer service VIP instead.
+      enabled: false
       http: 80
       https: 443
   securityContext:
@@ -52,7 +55,7 @@ ingressController:
     runAsNonRoot: false
     seccompProfile:
       type: Unconfined
-  enforeHttps: false
+  enforceHttps: false
 podSecurityPolicy:
   enabled: true
   privileged: true
