@@ -4,7 +4,7 @@ namespace: default
 resources:
   - ./helmrelease.yaml
 configMapGenerator:
-  - name: dashboard-helm-values
+  - name: headlamp-helm-values
     files:
       - values.yaml=./helm-values.yaml
 generatorOptions:

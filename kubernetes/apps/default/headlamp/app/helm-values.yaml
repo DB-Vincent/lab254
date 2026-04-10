@@ -1,0 +1,11 @@
+service:
+  type: ClusterIP
+
+ingress:
+  enabled: true
+  className: cilium
+  hosts:
+    - host: headlamp.k8s.lab.lan
+      paths:
+        - path: /
+          type: Prefix
