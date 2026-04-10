@@ -4,8 +4,8 @@ controllers:
     containers:
       main:
         image:
-          repository: ghcr.io/linuxserver/sonarr
-          tag: 4.0.17
+          repository: ghcr.io/linuxserver/prowlarr
+          tag: 2.3.5
           pullPolicy: IfNotPresent
         env:
           PUID: 1000
@@ -18,7 +18,7 @@ service:
     type: ClusterIP
     ports:
       http:
-        port: 8989
+        port: 9696
 
 ingress:
   main:
@@ -26,7 +26,7 @@ ingress:
     annotations:
       ingress.cilium.io/loadbalancer-mode: shared
     hosts:
-      - host: sonarr.k8s.lab.lan
+      - host: prowlarr.k8s.lab.lan
         paths:
           - path: /
             pathType: Prefix
@@ -38,18 +38,9 @@ persistence:
   config:
     enabled: true
     storageClass: longhorn
-    size: 5Gi
+    size: 2Gi
     accessMode: ReadWriteOnce
     advancedMounts:
       main:
         main:
           - path: /config
-  data:
-    enabled: true
-    type: nfs
-    server: 172.16.2.23
-    path: /plex
-    advancedMounts:
-      main:
-        main:
-          - path: /data
