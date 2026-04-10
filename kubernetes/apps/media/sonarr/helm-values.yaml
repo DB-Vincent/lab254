@@ -48,7 +48,7 @@ persistence:
     enabled: true
     type: nfs
     server: 172.16.2.23
-    path: /plex
+    path: /Plex
     advancedMounts:
       main:
         main:
