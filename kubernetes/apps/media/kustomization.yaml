@@ -5,7 +5,6 @@ resources:
   - ./sonarr
   - ./radarr
   - ./prowlarr
-  - ./bazarr
   - ./seerr
   - ./qbittorrent
 
