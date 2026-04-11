@@ -17,7 +17,7 @@ ingress:
     annotations:
       ingress.cilium.io/loadbalancer-mode: shared
     hosts:
-      - host: glance.k8s.lab.lan
+      - host: glance.lab254.lab.lan
         paths:
           - path: /
             pathType: Prefix
@@ -47,15 +47,15 @@ configMaps:
               title: Services
               sites:
               - title: Jackett
-                url: http://jackett.k8s.lab.lan/UI/Dashboard
+                url: http://jackett.lab254.lab.lan/UI/Dashboard
               - title: Sonarr
-                url: http://sonarr.k8s.lab.lan
+                url: http://sonarr.lab254.lab.lan
               - title: Radarr
-                url: http://radarr.k8s.lab.lan
+                url: http://radarr.lab254.lab.lan
               - title: Overseerr
-                url: http://overseerr.k8s.lab.lan
+                url: http://overseerr.lab254.lab.lan
               - title: Immich
-                url: http://immich.k8s.lab.lan
+                url: http://immich.lab254.lab.lan
             - type: twitch-channels
               channels:
               - theprimeagen

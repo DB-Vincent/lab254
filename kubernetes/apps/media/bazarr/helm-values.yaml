@@ -26,7 +26,7 @@ ingress:
     annotations:
       ingress.cilium.io/loadbalancer-mode: shared
     hosts:
-      - host: bazarr.k8s.lab.lan
+      - host: bazarr.lab254.lab.lan
         paths:
           - path: /
             pathType: Prefix

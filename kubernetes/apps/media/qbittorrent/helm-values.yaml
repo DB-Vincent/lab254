@@ -27,7 +27,7 @@ ingress:
     annotations:
       ingress.cilium.io/loadbalancer-mode: shared
     hosts:
-      - host: qbittorrent.k8s.lab.lan
+      - host: qbittorrent.lab254.lab.lan
         paths:
           - path: /
             pathType: Prefix
