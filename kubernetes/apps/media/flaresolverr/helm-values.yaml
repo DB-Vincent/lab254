@@ -1,0 +1,46 @@
+controllers:
+  main:
+    replicas: 1
+    containers:
+      main:
+        image:
+          repository: ghcr.io/flaresolverr/flaresolverr
+          tag: v3.4.6
+          pullPolicy: IfNotPresent
+        env:
+          PUID: 1000
+          PGID: 100
+          TZ: UTC
+
+service:
+  main:
+    controller: main
+    type: ClusterIP
+    ports:
+      http:
+        port: 8191
+
+ingress:
+  main:
+    className: cilium
+    annotations:
+      ingress.cilium.io/loadbalancer-mode: shared
+    hosts:
+      - host: flaresolverr.lab254.lab.lan
+        paths:
+          - path: /
+            pathType: Prefix
+            service:
+              identifier: main
+              port: http
+
+persistence:
+  config:
+    enabled: true
+    storageClass: longhorn
+    size: 2Gi
+    accessMode: ReadWriteOnce
+    advancedMounts:
+      main:
+        main:
+          - path: /config
