@@ -44,3 +44,14 @@ persistence:
       main:
         main:
           - path: /config
+  data:
+    enabled: true
+    type: nfs
+    server: 172.16.2.23
+    path: /Plex
+    advancedMounts:
+      main:
+        main:
+          - path: /data
+
+
