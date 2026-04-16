@@ -4,6 +4,7 @@ resources:
   - ./namespace.yaml
   - ./sonarr
   - ./radarr
+  - ./bazarr
   - ./prowlarr
   - ./seerr
   - ./transmission
