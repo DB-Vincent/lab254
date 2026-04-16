@@ -4,14 +4,13 @@ controllers:
     containers:
       main:
         image:
-          repository: ghcr.io/linuxserver/qbittorrent
-          tag: 5.1.4
+          repository: ghcr.io/linuxserver/transmission
+          tag: 4.1.1
           pullPolicy: IfNotPresent
         env:
           PUID: 1000
           PGID: 100
           TZ: UTC
-          WEBUI_PORT: 8080
 
 service:
   main:
@@ -19,7 +18,7 @@ service:
     type: ClusterIP
     ports:
       http:
-        port: 8080
+        port: 9091
 
 ingress:
   main:
@@ -27,7 +26,7 @@ ingress:
     annotations:
       ingress.cilium.io/loadbalancer-mode: shared
     hosts:
-      - host: qbittorrent.lab254.lab.lan
+      - host: transmission.lab254.lab.lan
         paths:
           - path: /
             pathType: Prefix

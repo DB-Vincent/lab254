@@ -6,5 +6,5 @@ resources:
   - ./radarr
   - ./prowlarr
   - ./seerr
-  - ./qbittorrent
+  - ./transmission
   - ./flaresolverr
