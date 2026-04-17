@@ -10,7 +10,7 @@ controllers:
         env:
           PUID: 1000
           PGID: 100
-          TZ: UTC
+          TZ: Europe/Brussels
 
 service:
   main:

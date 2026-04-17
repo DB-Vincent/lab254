@@ -8,7 +8,7 @@ controllers:
           tag: v3.1.0
           pullPolicy: IfNotPresent
         env:
-          TZ: UTC
+          TZ: Europe/Brussels
           PORT: 5055
 
 defaultPodOptions:
