@@ -7,3 +7,4 @@ resources:
   - longhorn.yaml
   - cilium.yaml
   - headlamp.yaml
+  - cloudnative-pg.yaml

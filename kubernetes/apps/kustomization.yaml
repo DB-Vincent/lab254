@@ -4,4 +4,5 @@ resources:
   - ./default
   - ./kube-system
   - ./media
-  - ./longhorn-system  
+  - ./longhorn-system
+  - ./cnpg-system
