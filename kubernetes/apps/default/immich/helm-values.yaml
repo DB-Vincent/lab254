@@ -35,6 +35,7 @@ valkey:
 server:
   ingress:
     main:
+      enabled: true
       className: cilium 
       annotations:
         ingress.cilium.io/loadbalancer-mode: shared
