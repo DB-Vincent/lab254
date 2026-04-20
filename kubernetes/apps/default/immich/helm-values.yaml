@@ -1,0 +1,48 @@
+controllers:
+  main:
+    containers:
+      main:
+        image:
+          tag: v2.7.5
+        env:
+          REDIS_HOSTNAME: '{{ printf "%s-valkey" .Release.Name }}'
+          DB_HOSTNAME:
+            valueFrom:
+              secretKeyRef:
+                name: immich-cluster-app
+                key: host
+          DB_DATABASE_NAME:
+            valueFrom:
+              secretKeyRef:
+                name: immich-cluster-app
+                key: dbname
+          DB_USERNAME:
+            valueFrom:
+              secretKeyRef:
+                name: immich-cluster-app
+                key: username
+          DB_PASSWORD:
+            valueFrom:
+              secretKeyRef:
+                name: immich-cluster-app
+                key: password
+immich:
+  persistence:
+    library:
+      existingClaim: immich-nfs
+valkey:
+  enabled: true
+server:
+  ingress:
+    main:
+      className: cilium 
+      annotations:
+        ingress.cilium.io/loadbalancer-mode: shared
+      hosts:
+        - host: immich.lab254.lab.lan
+          paths:
+            - path: /
+              pathType: Prefix
+              service:
+                identifier: main
+                port: http

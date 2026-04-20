@@ -8,3 +8,4 @@ resources:
   - cilium.yaml
   - headlamp.yaml
   - cloudnative-pg.yaml
+  - immich.yaml

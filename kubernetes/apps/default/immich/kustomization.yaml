@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: default 
+resources:
+  - ./postgres.yaml
+  - ./storage.yaml
+  - ./helmrelease.yaml
+configMapGenerator:
+  - name: immich-helm-values
+    files:
+      - values.yaml=./helm-values.yaml
+generatorOptions:
+  disableNameSuffixHash: true
