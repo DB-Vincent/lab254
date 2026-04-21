@@ -3,5 +3,4 @@ kind: Kustomization
 resources:
   - ./glance
   - ./headlamp
-  - ./immich
-
+ # - ./immich
