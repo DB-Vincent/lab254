@@ -1,17 +1,4 @@
 ---
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: immich-storage
-  namespace: default
-spec:
-  storageClassName: ceph-block
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 16Gi
----
 apiVersion: v1
 kind: PersistentVolume
 metadata:
