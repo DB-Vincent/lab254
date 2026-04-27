@@ -52,7 +52,8 @@ persistence:
     advancedMounts:
       main:
         main:
-          - path: /data
+          - path: /downloads
+            subPath: downloads
 
 securityContext:
   container:
