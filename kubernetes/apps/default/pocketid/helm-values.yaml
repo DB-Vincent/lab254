@@ -30,7 +30,10 @@ ingress:
 persistence:
   config:
     enabled: true
-    type: configMap
-    name: pocketid-config
-    globalMounts:
-      - path: /app/data
+    storageClass: longhorn
+    size: 5Gi
+    accessMode: ReadWriteOnce
+    advancedMounts:
+      main:
+        main:
+          - path: /app/data
