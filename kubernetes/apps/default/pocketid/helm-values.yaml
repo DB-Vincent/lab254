@@ -6,8 +6,8 @@ controllers:
           repository: ghcr.io/pocket-id/pocket-id
           tag: v2.6.2
         envFrom:
-          secretRef:
-            identifier: pocketid-encryption-key
+          - secretRef:
+              identifier: pocketid-encryption-key
 service:
   main:
     controller: main
