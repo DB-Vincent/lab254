@@ -4,3 +4,4 @@ resources:
   - ./glance
   - ./headlamp
   - ./immich
+  - ./pocketid

@@ -1,0 +1,36 @@
+controllers:
+  main:
+    containers:
+      pocketid:
+        image:
+          repository: ghcr.io/pocket-id/pocket-id
+          tag: v2.6.2
+        envFrom:
+          secretRef:
+            identifier: pocketid-encryption-key
+service:
+  main:
+    controller: main
+    ports:
+      http:
+        port: 1411
+ingress:
+  main:
+    className: cilium
+    annotations:
+      ingress.cilium.io/loadbalancer-mode: shared
+    hosts:
+      - host: oidc.lab254.lab.lan
+        paths:
+          - path: /
+            pathType: Prefix
+            service:
+              identifier: main
+              port: http
+persistence:
+  config:
+    enabled: true
+    type: configMap
+    name: pocketid-config
+    globalMounts:
+      - path: /app/data
