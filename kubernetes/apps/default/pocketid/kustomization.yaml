@@ -5,7 +5,7 @@ resources:
   - ./secret.sops.yaml
   - ./helmrelease.yaml
 configMapGenerator:
-  - name: glance-helm-values
+  - name: pocketid-helm-values
     files:
       - values.yaml=./helm-values.yaml
 generatorOptions:
