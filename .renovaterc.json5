@@ -1,0 +1,49 @@
+{
+  $schema: "https://docs.renovatebot.com/renovate-schema.json",
+  extends: [
+    "config:recommended",
+    "docker:enableMajor",
+    ":dependencyDashboard",
+    ":disableRateLimiting",
+    ":semanticCommits",
+  ],
+  dependencyDashboard: true,
+  dependencyDashboardTitle: "Renovate Dashboard",
+  timezone: "Europe/Brussels",
+  ignorePaths: ["**/*.sops.*"],
+  flux: {
+    managerFilePatterns: ["/(^|/)kubernetes/.+\\.ya?ml$/"],
+  },
+  "helm-values": {
+    managerFilePatterns: ["/(^|/)kubernetes/.+/helm-values\\.ya?ml$/"],
+  },
+  packageRules: [
+    {
+      description: "Group app-template chart bumps",
+      matchDatasources: ["helm"],
+      matchDepNames: ["app-template"],
+      groupName: "app-template",
+    },
+    {
+      description: "Container image updates",
+      matchDatasources: ["docker"],
+      commitMessageTopic: "image {{depName}}",
+    },
+    {
+      description: "Helm chart updates",
+      matchDatasources: ["helm"],
+      commitMessageTopic: "chart {{depName}}",
+    },
+  ],
+  customManagers: [
+    {
+      description: "Immich image tag (repository set by chart)",
+      customType: "regex",
+      fileFormat: "yaml",
+      managerFilePatterns: ["/kubernetes/apps/default/immich/helm-values\\.yaml$/"],
+      matchStrings: ["image:\\s*\\n\\s+tag:\\s+(?<currentValue>[^\\s]+)"],
+      depName: "ghcr.io/immich-app/immich-server",
+      datasourceTemplate: "docker",
+    },
+  ],
+}
