@@ -9,3 +9,5 @@ resources:
   - headlamp.yaml
   - cloudnative-pg.yaml
   - immich.yaml
+  - cert-manager.yaml
+

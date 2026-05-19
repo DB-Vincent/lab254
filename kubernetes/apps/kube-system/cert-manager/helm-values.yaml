@@ -1,0 +1,7 @@
+installCRDs: true
+podDnsPolicy: "None"
+podDnsConfig:
+  nameservers:
+    - 10.80.80.10
+    - 10.80.80.11
+
