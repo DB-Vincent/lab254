@@ -1,0 +1,44 @@
+controllers:
+  main:
+    containers:
+      pocketid:
+        image:
+          repository: ghcr.io/pocket-id/pocket-id
+          tag: v2.6.2
+        envFrom:
+          - secretRef:
+              name: pocketid-encryption-key
+service:
+  main:
+    controller: main
+    ports:
+      http:
+        port: 1411
+ingress:
+  main:
+    className: cilium
+    annotations:
+      ingress.cilium.io/loadbalancer-mode: shared
+      cert-manager.io/cluster-issuer: internal-ca
+    hosts:
+      - host: oidc.lab254.lab.lan
+        paths:
+          - path: /
+            pathType: Prefix
+            service:
+              identifier: main
+              port: http
+    tls:
+      - hosts:
+          - oidc.lab254.lab.lan
+        secretName: oidc-lab254-lan-tls
+persistence:
+  config:
+    enabled: true
+    storageClass: longhorn
+    size: 5Gi
+    accessMode: ReadWriteOnce
+    advancedMounts:
+      main:
+        main:
+          - path: /app/data
