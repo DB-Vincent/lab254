@@ -3,11 +3,10 @@ kind: Kustomization
 namespace: kube-system
 resources:
   - ./helmrelease.yaml
-  - ./issuer.yaml
+  # - ./issuer.yaml
 configMapGenerator:
   - name: cert-manager-helm-values
     files:
       - values.yaml=./helm-values.yaml
 generatorOptions:
   disableNameSuffixHash: true
-
