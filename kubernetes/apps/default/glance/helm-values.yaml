@@ -16,6 +16,7 @@ ingress:
     className: cilium 
     annotations:
       ingress.cilium.io/loadbalancer-mode: shared
+      cert-manager.io/cluster-issuer: internal-ca
     hosts:
       - host: glance.lab254.lab.lan
         paths:
@@ -24,6 +25,10 @@ ingress:
             service:
               identifier: main
               port: http
+    tls:
+      - hosts:
+          - glance.lab254.lab.lan
+        secretName: glance-lab254-lan-tls
 persistence:
   config:
     enabled: true
