@@ -42,5 +42,5 @@ persistence:
     accessMode: ReadWriteOnce
     advancedMounts:
       main:
-        main:
+        pocketid:
           - path: /app/data
