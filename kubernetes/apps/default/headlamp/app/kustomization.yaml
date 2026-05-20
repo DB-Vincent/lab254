@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: default
 resources:
   - ./helmrelease.yaml
+  - ./secret.sops.yaml
 configMapGenerator:
   - name: headlamp-helm-values
     files:
