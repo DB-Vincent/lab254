@@ -42,7 +42,7 @@
       fileFormat: "yaml",
       managerFilePatterns: ["/kubernetes/apps/default/immich/helm-values\\.yaml$/"],
       matchStrings: ["image:\\s*\\n\\s+tag:\\s+(?<currentValue>[^\\s]+)"],
-      depName: "ghcr.io/immich-app/immich-server",
+      depNameTemplate: "ghcr.io/immich-app/immich-server",
       datasourceTemplate: "docker",
     },
   ],
