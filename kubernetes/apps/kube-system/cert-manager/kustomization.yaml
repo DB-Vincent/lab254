@@ -3,9 +3,9 @@ kind: Kustomization
 namespace: kube-system
 resources:
   - ./helmrelease.yaml
-  - ./issuer.yaml
-  - ./issuer-internal-ca.yaml
-  - ./certificate-ca.yaml
+  # - ./issuer.yaml
+  # - ./issuer-internal-ca.yaml
+  # - ./certificate-ca.yaml
 configMapGenerator:
   - name: cert-manager-helm-values
     files:

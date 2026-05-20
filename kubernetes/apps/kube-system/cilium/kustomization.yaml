@@ -3,11 +3,12 @@ kind: Kustomization
 namespace: kube-system
 resources:
   - ./helmrelease.yaml
-  - ./announcement.yaml
-  - ./pool.yaml
+  # - ./announcement.yaml
+  # - ./pool.yaml
 configMapGenerator:
   - name: cilium-helm-values
     files:
       - values.yaml=./helm-values.yaml
 generatorOptions:
   disableNameSuffixHash: true
+
