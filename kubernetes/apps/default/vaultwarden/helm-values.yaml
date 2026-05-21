@@ -1,0 +1,33 @@
+replicaCount: 1
+image:
+  registry: ghcr.io
+  repository: dani-garcia/vaultwarden
+  tag: 1.35.4-alpine
+service:
+  type: ClusterIP
+  port: 80
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+storage:
+  data:
+    name: "vaultwarden-data"
+    size: "2Gi"
+    class: "longhorn"
+    path: "/data"
+    keepPvc: true
+    accessMode: "ReadWriteOnce"
+domain: https://bitwarden.vincentdeborger.be
+ingress:
+  enabled: true
+  class: nginx
+  additionalAnnotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+  tls: true
+  tlsSecret: "bitwarden-vincentdeborger-be-tls"
+  hostname: "bitwarden.vincentdeborger.be"

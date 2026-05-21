@@ -4,3 +4,4 @@ resources:
   - ./headlamp
   - ./immich
   - ./pocketid
+  - ./vaultwarden

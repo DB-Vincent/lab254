@@ -10,4 +10,4 @@ resources:
   - cloudnative-pg.yaml
   - immich.yaml
   - cert-manager.yaml
-
+  - vaultwarden.yaml
