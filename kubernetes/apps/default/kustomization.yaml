@@ -5,5 +5,5 @@ resources:
   - ./immich
   - ./pocketid
   - ./vaultwarden
-  # - ./jellyfin
+  - ./jellyfin
   - ./tsgateway
