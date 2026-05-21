@@ -28,6 +28,7 @@ ingress:
   additionalAnnotations:
     kubernetes.io/ingress.class: cilium
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    ingress.cilium.io/loadbalancer-mode: shared
   tls: true
   tlsSecret: "bitwarden-vincentdeborger-be-tls"
   hostname: "bitwarden.vincentdeborger.be"
