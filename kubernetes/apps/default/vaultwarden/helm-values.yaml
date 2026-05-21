@@ -25,10 +25,15 @@ domain: https://bitwarden.vincentdeborger.be
 ingress:
   enabled: true
   class: cilium
+  # Chart defaults add nginx-only redirect annotations; incompatible with Cilium.
+  nginxIngressAnnotations: false
   additionalAnnotations:
     kubernetes.io/ingress.class: cilium
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     ingress.cilium.io/loadbalancer-mode: shared
+    # Allow HTTP-01 challenges while TLS is configured on this Ingress.
+    ingress.cilium.io/force-https: disabled
+    acme.cert-manager.io/http01-edit-in-place: "true"
   tls: true
   tlsSecret: "bitwarden-vincentdeborger-be-tls"
   hostname: "bitwarden.vincentdeborger.be"

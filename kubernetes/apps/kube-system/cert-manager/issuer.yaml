@@ -16,3 +16,4 @@ spec:
               metadata:
                 annotations:
                   "ingress.cilium.io/loadbalancer-mode": "shared"
+                  "ingress.cilium.io/force-https": "disabled"
