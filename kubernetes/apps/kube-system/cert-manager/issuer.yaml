@@ -12,3 +12,7 @@ spec:
       - http01:
           ingress:
             ingressClassName: cilium
+            ingressTemplate:
+              metadata:
+                annotations:
+                  "ingress.cilium.io/loadbalancer-mode": "shared"
