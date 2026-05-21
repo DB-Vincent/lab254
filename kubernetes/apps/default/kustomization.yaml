@@ -4,6 +4,6 @@ resources:
   - ./headlamp
   - ./immich
   - ./pocketid
-  # - ./vaultwarden
+  - ./vaultwarden
   # - ./jellyfin
   - ./tsgateway
