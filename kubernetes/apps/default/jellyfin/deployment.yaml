@@ -1,0 +1,87 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jellyfin-reverse-proxy
+  namespace: default
+  labels:
+    app: jellyfin-reverse-proxy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jellyfin-reverse-proxy
+  template:
+    metadata:
+      labels:
+        app: jellyfin-reverse-proxy
+        category: reverse-proxy
+    spec:
+      containers:
+        - name: jellyfin-reverse-proxy
+          image: owasp/modsecurity-crs:4-nginx-202512071012
+          ports:
+            - containerPort: 8080
+          env:
+            # Backend configuration
+            - name: BACKEND
+              value: "http://172.16.2.15:8096"
+            - name: PORT
+              value: "8080"
+            - name: PROXY_SSL_VERIFY
+              value: "off"
+
+            # ModSecurity settings
+            - name: MODSEC_RULE_ENGINE
+              value: "On"
+            - name: MODSEC_AUDIT_ENGINE
+              value: "RelevantOnly"
+            - name: MODSEC_AUDIT_LOG
+              value: "/var/log/nginx/modsec_audit.log"
+            - name: MODSEC_AUDIT_LOG_FORMAT
+              value: "JSON"
+            - name: MODSEC_REQ_BODY_ACCESS
+              value: "On"
+            - name: MODSEC_REQ_BODY_LIMIT
+              value: "104857600"
+            - name: MODSEC_RESP_BODY_ACCESS
+              value: "On"
+            - name: MODSEC_RESP_BODY_LIMIT
+              value: "1048576"
+
+            # Anomaly scoring
+            - name: ANOMALY_INBOUND
+              value: "5"
+            - name: ANOMALY_OUTBOUND
+              value: "4"
+
+            # CRS settings
+            - name: PARANOIA
+              value: "1"
+            - name: BLOCKING_PARANOIA
+              value: "1"
+
+            # Proxy settings for Jellyfin
+            - name: PROXY_TIMEOUT
+              value: "300s"
+            - name: WORKER_CONNECTIONS
+              value: "1024"
+          resources:
+            requests:
+              cpu: 200m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 256Mi
+          volumeMounts:
+            - name: modsec-override
+              mountPath: /etc/modsecurity.d/owasp-crs/rules/REQUEST-900-EXCLUSION-RULES-BEFORE-CRS.conf
+              subPath: modsecurity-override.conf
+              readOnly: true
+      volumes:
+        - name: modsec-override
+          configMap:
+            name: jellyfin-modsec-override
+            items:
+              - key: modsecurity-override.conf
+                path: modsecurity-override.conf

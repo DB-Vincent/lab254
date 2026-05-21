@@ -1,0 +1,25 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jellyfin-reverse-proxy
+  namespace: default
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: jelly.vincentdeborger.be
+      http:
+        paths:
+          - path: /
+            backend:
+              service:
+                name: jellyfin-reverse-proxy
+                port:
+                  number: 80
+            pathType: Prefix
+  tls:
+    - hosts:
+        - jelly.vincentdeborger.be
+      secretName: jelly-tls

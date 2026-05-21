@@ -1,0 +1,16 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: jellyfin-modsec-override
+  namespace: default
+data:
+  modsecurity-override.conf: |
+    # Custom ModSecurity overrides for Jellyfin
+    # Increase body limits for media uploads
+    SecRequestBodyLimit 104857600
+    SecRequestBodyNoFilesLimit 131072
+
+    # Allow WebSocket connections
+    SecRule REQUEST_HEADERS:Upgrade "@streq websocket" \
+      "id:1000,phase:1,t:none,pass,nolog,ctl:ruleEngine=Off"
