@@ -5,7 +5,7 @@ controllers:
       main:
         image:
           repository: ghcr.io/linuxserver/transmission
-          tag: 4.1.1
+          tag: 4.1.2
           pullPolicy: IfNotPresent
         env:
           PUID: 1000
