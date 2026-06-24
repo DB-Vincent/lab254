@@ -6,4 +6,5 @@ resources:
   - ./pocketid
   - ./vaultwarden
   - ./jellyfin
+  - ./minecraft
   - ./tsgateway

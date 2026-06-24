@@ -1,0 +1,24 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: minecraft-config
+  labels:
+    app: minecraft
+data:
+  EULA: "TRUE"
+  TYPE: PAPER
+  VERSION: LATEST
+  MEMORY: 4G
+  TZ: Europe/Brussels
+  USE_AIKAR_FLAGS: "true"
+  DIFFICULTY: normal
+  MODE: survival
+  MOTD: Minecraft Server
+  MAX_PLAYERS: "10"
+  VIEW_DISTANCE: "10"
+  # RCON is enabled by default; required for graceful shutdown.
+  RCON_PASSWORD_FILE: /run/secrets/rcon/password
+  SERVER_HOST: localhost
+  SERVER_PORT: "25565"
+  STOP_DURATION: "60"

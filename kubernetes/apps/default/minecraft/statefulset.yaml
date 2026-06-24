@@ -1,0 +1,72 @@
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: minecraft
+  labels:
+    app: minecraft
+spec:
+  replicas: 1
+  serviceName: minecraft
+  selector:
+    matchLabels:
+      app: minecraft
+  template:
+    metadata:
+      labels:
+        app: minecraft
+    spec:
+      terminationGracePeriodSeconds: 90
+      containers:
+        - name: minecraft
+          image: itzg/minecraft-server:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: minecraft
+              containerPort: 25565
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: minecraft-config
+          readinessProbe:
+            exec:
+              command:
+                - mc-monitor
+                - status
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            failureThreshold: 18
+          livenessProbe:
+            exec:
+              command:
+                - mc-monitor
+                - status
+            initialDelaySeconds: 120
+            periodSeconds: 60
+          resources:
+            requests:
+              cpu: 1000m
+              memory: 4Gi
+            limits:
+              cpu: 2000m
+              memory: 6Gi
+          volumeMounts:
+            - name: minecraft-data
+              mountPath: /data
+            - name: rcon-password
+              mountPath: /run/secrets/rcon
+              readOnly: true
+      volumes:
+        - name: rcon-password
+          secret:
+            secretName: minecraft-rcon
+  volumeClaimTemplates:
+    - metadata:
+        name: minecraft-data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: longhorn
+        resources:
+          requests:
+            storage: 20Gi
