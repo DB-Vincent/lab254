@@ -8,7 +8,7 @@ metadata:
 data:
   EULA: "TRUE"
   TYPE: PAPER
-  VERSION: "26.1"
+  VERSION: "26.1.2"
   MEMORY: 4G
   TZ: Europe/Brussels
   USE_AIKAR_FLAGS: "true"
