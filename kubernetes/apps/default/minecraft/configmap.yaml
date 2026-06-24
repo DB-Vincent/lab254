@@ -8,7 +8,7 @@ metadata:
 data:
   EULA: "TRUE"
   TYPE: PAPER
-  VERSION: LATEST
+  VERSION: 26.1
   MEMORY: 4G
   TZ: Europe/Brussels
   USE_AIKAR_FLAGS: "true"
@@ -16,7 +16,7 @@ data:
   MODE: survival
   MOTD: Minecraft Server
   MAX_PLAYERS: "10"
-  VIEW_DISTANCE: "10"
+  VIEW_DISTANCE: "32"
   # RCON is enabled by default; required for graceful shutdown.
   RCON_PASSWORD_FILE: /run/secrets/rcon/password
   SERVER_HOST: localhost
