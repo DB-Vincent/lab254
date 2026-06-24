@@ -3,6 +3,6 @@ kind: Kustomization
 namespace: default
 resources:
   - configmap.yaml
-  - secret.yaml
+  - secret.sops.yaml
   - statefulset.yaml
   - service.yaml
