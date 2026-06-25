@@ -10,3 +10,5 @@ resources:
   - ./transmission
   - ./flaresolverr
   - ./profilarr
+  - ./lidarr
+  - ./navidrome

@@ -1,0 +1,55 @@
+controllers:
+  main:
+    replicas: 1
+    containers:
+      main:
+        image:
+          repository: ghcr.io/linuxserver/lidarr
+          tag: 3.1.0
+          pullPolicy: IfNotPresent
+        env:
+          PUID: 1000
+          PGID: 100
+          TZ: Europe/Brussels
+
+service:
+  main:
+    controller: main
+    type: ClusterIP
+    ports:
+      http:
+        port: 8686
+
+ingress:
+  main:
+    className: cilium
+    annotations:
+      ingress.cilium.io/loadbalancer-mode: shared
+    hosts:
+      - host: lidarr.lab254.lab.lan
+        paths:
+          - path: /
+            pathType: Prefix
+            service:
+              identifier: main
+              port: http
+
+persistence:
+  config:
+    enabled: true
+    storageClass: longhorn
+    size: 5Gi
+    accessMode: ReadWriteOnce
+    advancedMounts:
+      main:
+        main:
+          - path: /config
+  data:
+    enabled: true
+    type: nfs
+    server: 172.16.2.23
+    path: /Plex
+    advancedMounts:
+      main:
+        main:
+          - path: /data

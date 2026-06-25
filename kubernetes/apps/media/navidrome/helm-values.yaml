@@ -1,0 +1,62 @@
+controllers:
+  main:
+    replicas: 1
+    containers:
+      main:
+        image:
+          repository: deluan/navidrome
+          tag: 0.62.0
+          pullPolicy: IfNotPresent
+        env:
+          TZ: Europe/Brussels
+          ND_SCANSCHEDULE: 1h
+          ND_LOGLEVEL: info
+          ND_MUSICFOLDER: /music
+
+defaultPodOptions:
+  securityContext:
+    runAsUser: 1000
+    runAsGroup: 100
+    fsGroup: 100
+
+service:
+  main:
+    controller: main
+    type: ClusterIP
+    ports:
+      http:
+        port: 4533
+
+ingress:
+  main:
+    className: cilium
+    annotations:
+      ingress.cilium.io/loadbalancer-mode: shared
+    hosts:
+      - host: navidrome.lab254.lab.lan
+        paths:
+          - path: /
+            pathType: Prefix
+            service:
+              identifier: main
+              port: http
+
+persistence:
+  config:
+    enabled: true
+    storageClass: longhorn
+    size: 2Gi
+    accessMode: ReadWriteOnce
+    advancedMounts:
+      main:
+        main:
+          - path: /data
+  music:
+    enabled: true
+    type: nfs
+    server: 172.16.2.23
+    path: /Plex
+    advancedMounts:
+      main:
+        main:
+          - path: /music
