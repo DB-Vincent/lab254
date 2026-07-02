@@ -19,6 +19,7 @@ data:
   MOTD: Minecraft Server
   MAX_PLAYERS: "10"
   VIEW_DISTANCE: "32"
+
   # RCON is enabled by default; required for graceful shutdown.
   RCON_PASSWORD_FILE: /run/secrets/rcon/password
   SERVER_HOST: localhost
@@ -32,6 +33,7 @@ data:
     scalablelux
     ferrite-core
     zfastnoise
+  MODRINTH_MODPACK_VERSION_TYPE: "beta"
   # Whitelist
   ENABLE_WHITELIST: "true"
   WHITELIST: "jumperlow"
