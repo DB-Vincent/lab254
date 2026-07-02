@@ -10,7 +10,7 @@ data:
   TYPE: FABRIC
   FABRIC_LAUNCHER_VERSION: "1.1.1"
   FABRIC_LOADER_VERSION: "0.19.3"
-  VERSION: "26.2"
+  VERSION: "26.1.2"
   MEMORY: 4G
   TZ: Europe/Brussels
   USE_AIKAR_FLAGS: "true"
@@ -31,6 +31,8 @@ data:
     lithium
     scalablelux
     ferrite-core
+    c2me-fabric
+    zfastnoise
   # Whitelist
   ENABLE_WHITELIST: "true"
   WHITELIST: "jumperlow"
