@@ -31,8 +31,6 @@ data:
     lithium
     scalablelux
     ferrite-core
-    c2me-fabric
-    zfastnoise
   # Whitelist
   ENABLE_WHITELIST: "true"
   WHITELIST: "jumperlow"
