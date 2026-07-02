@@ -1,0 +1,22 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: minecraft-ingress
+  namespace: default
+  annotations:
+    ingress.cilium.io/loadbalancer-mode: shared
+    ingress.cilium.io/force-https: disabled
+spec:
+  ingressClassName: cilium
+  rules:
+    - host: mc.vincentdeborger.be
+      http:
+        paths:
+          - path: /
+            backend:
+              service:
+                name: minecraft
+                port:
+                  number: 25565
+            pathType: Prefix
