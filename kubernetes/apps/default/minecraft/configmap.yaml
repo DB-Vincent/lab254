@@ -7,8 +7,10 @@ metadata:
     app: minecraft
 data:
   EULA: "TRUE"
-  TYPE: PAPER
-  VERSION: "26.1.2"
+  TYPE: FABRIC
+  FABRIC_LAUNCHER_VERSION: "1.1.1"
+  FABRIC_LOADER_VERSION: "0.19.3"
+  VERSION: "26.2"
   MEMORY: 4G
   TZ: Europe/Brussels
   USE_AIKAR_FLAGS: "true"
@@ -22,3 +24,14 @@ data:
   SERVER_HOST: localhost
   SERVER_PORT: "25565"
   STOP_DURATION: "60"
+  # Mods
+  MODRINTH_PROJECTS: |
+    fabric-api
+    lithium
+    c2me-fabric
+    scalablelux
+    ferrite-core
+    zfastnoise
+  # Whitelist
+  ENABLE_WHITELIST: "true"
+  WHITELIST: "jumperlow"
