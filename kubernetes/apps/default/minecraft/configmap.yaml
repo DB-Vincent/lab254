@@ -29,11 +29,9 @@ data:
   MODRINTH_PROJECTS: |
     fabric-api
     lithium
-    c2me-fabric
     scalablelux
     ferrite-core
     zfastnoise
-  MODRINTH_MODPACK_VERSION_TYPE: "beta"
   # Whitelist
   ENABLE_WHITELIST: "true"
   WHITELIST: "jumperlow"
