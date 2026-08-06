@@ -66,6 +66,9 @@ spec:
               mountPath: /opt/couchdb/data
             - name: init-script
               mountPath: /scripts
+            - name: secret
+              mountPath: /secret
+              readOnly: true
       volumes:
         - name: couchdb-data
           persistentVolumeClaim:
@@ -74,3 +77,6 @@ spec:
           configMap:
             name: obsidian-livesync-init
             defaultMode: 0755
+        - name: secret
+          secret:
+            secretName: obsidian-livesync
