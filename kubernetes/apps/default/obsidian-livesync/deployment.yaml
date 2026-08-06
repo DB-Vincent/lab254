@@ -15,6 +15,33 @@ spec:
       labels:
         app: obsidian-livesync
     spec:
+      initContainers:
+        - name: init-couchdb
+          image: curlimages/curl:latest
+          command:
+            - /bin/sh
+            - -c
+            - |
+              echo "Waiting for CouchDB to be ready..."
+              until curl -sf http://obsidian-livesync:5984/_up; do
+                sleep 2
+              done
+              echo "Creating system databases..."
+              curl -sf -X PUT http://${COUCHDB_USER}:${COUCHDB_PASSWORD}@obsidian-livesync:5984/_users
+              curl -sf -X PUT http://${COUCHDB_USER}:${COUCHDB_PASSWORD}@obsidian-livesync:5984/_replicator
+              curl -sf -X PUT http://${COUCHDB_USER}:${COUCHDB_PASSWORD}@obsidian-livesync:5984/_global_changes
+              echo "System databases created."
+          env:
+            - name: COUCHDB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: obsidian-livesync
+                  key: username
+            - name: COUCHDB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: obsidian-livesync
+                  key: password
       containers:
         - name: couchdb
           image: docker.io/oleduc/docker-obsidian-livesync-couchdb:1.0.3
