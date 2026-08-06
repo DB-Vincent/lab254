@@ -18,7 +18,7 @@ data:
     COUCHDB_PID=$!
 
     echo "Waiting for CouchDB to be ready..."
-    until curl -sf -u "$(cat /secret/username):$(cat /secret/password)" http://localhost:5984/_up 2>/dev/null; do
+    until curl -s http://localhost:5984/ -o /dev/null 2>/dev/null; do
       sleep 2
     done
 
