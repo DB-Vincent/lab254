@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: couchdb
-          image: docker.io/couchdb:3.5.1
+          image: docker.io/oleduc/docker-obsidian-livesync-couchdb:1.0.3
           imagePullPolicy: IfNotPresent
           command:
             - /bin/bash
