@@ -43,15 +43,19 @@ spec:
             - name: COUCHDB_DATABASE
               value: "obsidian"
           readinessProbe:
-            httpGet:
-              path: /_up
-              port: http
-            initialDelaySeconds: 10
+            exec:
+              command:
+                - /bin/bash
+                - -c
+                - curl -sf -u "$(cat /secret/username):$(cat /secret/password)" http://localhost:5984/_session
+            initialDelaySeconds: 15
             periodSeconds: 10
           livenessProbe:
-            httpGet:
-              path: /_up
-              port: http
+            exec:
+              command:
+                - /bin/bash
+                - -c
+                - curl -sf -u "$(cat /secret/username):$(cat /secret/password)" http://localhost:5984/_session
             initialDelaySeconds: 30
             periodSeconds: 60
           resources:
