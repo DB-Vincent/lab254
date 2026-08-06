@@ -23,9 +23,9 @@ data:
     done
 
     echo "Creating system databases..."
-    curl -sf -X PUT http://$(cat /secret/username):$(cat /secret/password)@localhost:5984/_users
-    curl -sf -X PUT http://$(cat /secret/username):$(cat /secret/password)@localhost:5984/_replicator
-    curl -sf -X PUT http://$(cat /secret/username):$(cat /secret/password)@localhost:5984/_global_changes
+    curl -s -X PUT "http://$(cat /secret/username):$(cat /secret/password)@localhost:5984/_users" -o /dev/null
+    curl -s -X PUT "http://$(cat /secret/username):$(cat /secret/password)@localhost:5984/_replicator" -o /dev/null
+    curl -s -X PUT "http://$(cat /secret/username):$(cat /secret/password)@localhost:5984/_global_changes" -o /dev/null
     echo "System databases created."
 
     wait $COUCHDB_PID
