@@ -15,26 +15,6 @@ spec:
       labels:
         app: obsidian-livesync
     spec:
-      initContainers:
-        - name: init-couchdb
-          image: curlimages/curl:latest
-          command:
-            - /bin/sh
-            - -c
-            - |
-              echo "Waiting for CouchDB to be ready..."
-              until curl -sf http://obsidian-livesync:5984/_up; do
-                sleep 2
-              done
-              echo "Creating system databases..."
-              curl -sf -X PUT http://$(cat /secret/username):$(cat /secret/password)@obsidian-livesync:5984/_users
-              curl -sf -X PUT http://$(cat /secret/username):$(cat /secret/password)@obsidian-livesync:5984/_replicator
-              curl -sf -X PUT http://$(cat /secret/username):$(cat /secret/password)@obsidian-livesync:5984/_global_changes
-              echo "System databases created."
-          volumeMounts:
-            - name: secret
-              mountPath: /secret
-              readOnly: true
       containers:
         - name: couchdb
           image: docker.io/oleduc/docker-obsidian-livesync-couchdb:1.0.3
@@ -43,6 +23,22 @@ spec:
             - name: http
               containerPort: 5984
               protocol: TCP
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - |
+                    echo "Waiting for CouchDB to be ready..."
+                    until curl -sf http://localhost:5984/_up; do
+                      sleep 2
+                    done
+                    echo "Creating system databases..."
+                    curl -sf -X PUT http://$(cat /secret/username):$(cat /secret/password)@localhost:5984/_users
+                    curl -sf -X PUT http://$(cat /secret/username):$(cat /secret/password)@localhost:5984/_replicator
+                    curl -sf -X PUT http://$(cat /secret/username):$(cat /secret/password)@localhost:5984/_global_changes
+                    echo "System databases created."
           env:
             - name: SERVER_URL
               value: "https://couchdb.vincentdeborger.be"
@@ -80,6 +76,9 @@ spec:
           volumeMounts:
             - name: couchdb-data
               mountPath: /opt/couchdb/data
+            - name: secret
+              mountPath: /secret
+              readOnly: true
       volumes:
         - name: couchdb-data
           persistentVolumeClaim:
