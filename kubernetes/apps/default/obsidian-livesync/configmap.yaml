@@ -1,29 +1,20 @@
----
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: obsidian-livesync-init
-  labels:
-    app: obsidian-livesync
-data:
-  init.sh: |
-    #!/bin/bash
-    set -e
+#!/bin/bash
+set -e
 
-    echo "Starting CouchDB in background..."
-    /opt/couchdb/bin/couchdb &
-    COUCHDB_PID=$!
+echo "Starting CouchDB via entrypoint..."
+/docker-entrypoint.sh /opt/couchdb/bin/couchdb &
+COUCHDB_PID=$!
 
-    echo "Waiting for CouchDB to be ready..."
-    until curl -sf http://localhost:5984/_up; do
-      sleep 2
-    done
+echo "Waiting for CouchDB to be ready..."
+until curl -sf http://localhost:5984/_up; do
+  sleep 2
+done
 
-    echo "Creating system databases..."
-    curl -sf -X PUT http://$(cat /secret/username):$(cat /secret/password)@localhost:5984/_users
-    curl -sf -X PUT http://$(cat /secret/username):$(cat /secret/password)@localhost:5984/_replicator
-    curl -sf -X PUT http://$(cat /secret/username):$(cat /secret/password)@localhost:5984/_global_changes
-    echo "System databases created."
+echo "Creating system databases..."
+curl -sf -X PUT http://$(cat /secret/username):$(cat /secret/password)@localhost:5984/_users
+curl -sf -X PUT http://$(cat /secret/username):$(cat /secret/password)@localhost:5984/_replicator
+curl -sf -X PUT http://$(cat /secret/username):$(cat /secret/password)@localhost:5984/_global_changes
+echo "System databases created."
 
-    echo "Bringing CouchDB to foreground..."
-    wait $COUCHDB_PID
+echo "Bringing CouchDB to foreground..."
+wait $COUCHDB_PID
