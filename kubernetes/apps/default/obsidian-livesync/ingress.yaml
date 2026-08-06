@@ -1,0 +1,26 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: obsidian-livesync
+  namespace: default
+  annotations:
+    ingress.cilium.io/loadbalancer-mode: shared
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  ingressClassName: cilium
+  tls:
+    - hosts:
+        - couchdb.vincentdeborger.be
+      secretName: obsidian-livesync-tls
+  rules:
+    - host: couchdb.vincentdeborger.be
+      http:
+        paths:
+          - path: /
+            backend:
+              service:
+                name: obsidian-livesync
+                port:
+                  number: 5984
+            pathType: Prefix

@@ -8,3 +8,4 @@ resources:
   - ./jellyfin
   - ./minecraft
   - ./tsgateway
+  - ./obsidian-livesync
