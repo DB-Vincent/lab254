@@ -17,28 +17,16 @@ spec:
     spec:
       containers:
         - name: couchdb
-          image: docker.io/oleduc/docker-obsidian-livesync-couchdb:1.0.3
+          image: docker.io/couchdb:3.5.1
           imagePullPolicy: IfNotPresent
+          command:
+            - /bin/bash
+            - -c
+            - /scripts/init.sh
           ports:
             - name: http
               containerPort: 5984
               protocol: TCP
-          lifecycle:
-            postStart:
-              exec:
-                command:
-                  - /bin/sh
-                  - -c
-                  - |
-                    echo "Waiting for CouchDB to be ready..."
-                    until curl -sf http://localhost:5984/_up; do
-                      sleep 2
-                    done
-                    echo "Creating system databases..."
-                    curl -sf -X PUT http://$(cat /secret/username):$(cat /secret/password)@localhost:5984/_users
-                    curl -sf -X PUT http://$(cat /secret/username):$(cat /secret/password)@localhost:5984/_replicator
-                    curl -sf -X PUT http://$(cat /secret/username):$(cat /secret/password)@localhost:5984/_global_changes
-                    echo "System databases created."
           env:
             - name: SERVER_URL
               value: "https://couchdb.vincentdeborger.be"
@@ -76,13 +64,13 @@ spec:
           volumeMounts:
             - name: couchdb-data
               mountPath: /opt/couchdb/data
-            - name: secret
-              mountPath: /secret
-              readOnly: true
+            - name: init-script
+              mountPath: /scripts
       volumes:
         - name: couchdb-data
           persistentVolumeClaim:
             claimName: obsidian-livesync-data
-        - name: secret
-          secret:
-            secretName: obsidian-livesync
+        - name: init-script
+          configMap:
+            name: obsidian-livesync-init
+            defaultMode: 0755
