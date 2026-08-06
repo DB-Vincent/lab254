@@ -16,10 +16,12 @@ data:
     /docker-entrypoint.sh /opt/couchdb/bin/couchdb &
     COUCHDB_PID=$!
 
-    until curl -s -u "$COUCHDB_USER:$COUCHDB_PASS" http://localhost:5984/_session -o /dev/null 2>/dev/null; do
+    echo "Waiting for CouchDB to be ready and admin to be configured..."
+    until curl -s -u "$COUCHDB_USER:$COUCHDB_PASS" http://localhost:5984/_session -o /dev/null -w '%{http_code}' 2>/dev/null | grep -q 200; do
       sleep 2
     done
 
+    echo "Creating system databases..."
     curl -s -X PUT http://localhost:5984/_users --user "$COUCHDB_USER:$COUCHDB_PASS" -o /dev/null
     curl -s -X PUT http://localhost:5984/_replicator --user "$COUCHDB_USER:$COUCHDB_PASS" -o /dev/null
     curl -s -X PUT http://localhost:5984/_global_changes --user "$COUCHDB_USER:$COUCHDB_PASS" -o /dev/null
