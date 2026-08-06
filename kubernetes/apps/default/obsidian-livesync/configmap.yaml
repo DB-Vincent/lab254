@@ -1,12 +1,15 @@
 #!/bin/bash
 set -e
 
-echo "Starting CouchDB via entrypoint..."
-/docker-entrypoint.sh /opt/couchdb/bin/couchdb &
+echo "Writing admin credentials to local.d/docker.ini..."
+printf "\n[admins]\n%s = %s\n" "$(cat /secret/username)" "$(cat /secret/password)" > /opt/couchdb/etc/local.d/docker.ini
+
+echo "Starting CouchDB in background..."
+/opt/couchdb/bin/couchdb &
 COUCHDB_PID=$!
 
 echo "Waiting for CouchDB to be ready..."
-until curl -sf http://localhost:5984/_up; do
+until curl -sf http://localhost:5984/_up 2>/dev/null; do
   sleep 2
 done
 
@@ -16,5 +19,4 @@ curl -sf -X PUT http://$(cat /secret/username):$(cat /secret/password)@localhost
 curl -sf -X PUT http://$(cat /secret/username):$(cat /secret/password)@localhost:5984/_global_changes
 echo "System databases created."
 
-echo "Bringing CouchDB to foreground..."
 wait $COUCHDB_PID
