@@ -10,8 +10,11 @@ data:
     #!/bin/bash
     set -e
 
+    COUCHDB_USER=$(cat /secret/username)
+    COUCHDB_PASS=$(cat /secret/password)
+
     echo "Writing admin credentials to local.d/docker.ini..."
-    printf "\n[admins]\n%s = %s\n" "$(cat /secret/username)" "$(cat /secret/password)" > /opt/couchdb/etc/local.d/docker.ini
+    printf "\n[admins]\n%s = %s\n" "$COUCHDB_USER" "$COUCHDB_PASS" > /opt/couchdb/etc/local.d/docker.ini
 
     echo "Starting CouchDB in background..."
     /opt/couchdb/bin/couchdb &
@@ -23,9 +26,9 @@ data:
     done
 
     echo "Creating system databases..."
-    curl -s -X PUT "http://$(cat /secret/username):$(cat /secret/password)@localhost:5984/_users" -o /dev/null
-    curl -s -X PUT "http://$(cat /secret/username):$(cat /secret/password)@localhost:5984/_replicator" -o /dev/null
-    curl -s -X PUT "http://$(cat /secret/username):$(cat /secret/password)@localhost:5984/_global_changes" -o /dev/null
+    curl -s -X PUT http://localhost:5984/_users --user "$COUCHDB_USER:$COUCHDB_PASS" -o /dev/null
+    curl -s -X PUT http://localhost:5984/_replicator --user "$COUCHDB_USER:$COUCHDB_PASS" -o /dev/null
+    curl -s -X PUT http://localhost:5984/_global_changes --user "$COUCHDB_USER:$COUCHDB_PASS" -o /dev/null
     echo "System databases created."
 
     wait $COUCHDB_PID
