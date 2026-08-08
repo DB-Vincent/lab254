@@ -11,3 +11,4 @@ resources:
   - immich.yaml
   - cert-manager.yaml
   - vaultwarden.yaml
+  - tailscale.yaml
