@@ -27,5 +27,4 @@ spec:
       defaultTags:
         - tag:k8s-operator
     proxyConfig:
-      defaultTags:
-        - tag:k8s
+      defaultTags: "tag:k8s"
