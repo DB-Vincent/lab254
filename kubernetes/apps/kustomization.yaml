@@ -6,4 +6,3 @@ resources:
   - ./media
   - ./longhorn-system
   - ./cnpg-system
-  - ./tailscale
