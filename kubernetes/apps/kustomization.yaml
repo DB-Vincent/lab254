@@ -7,4 +7,3 @@ resources:
   - ./longhorn-system
   - ./cnpg-system
   - ./tailscale
-  - ./tailscale/connector
