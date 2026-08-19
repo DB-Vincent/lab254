@@ -4,13 +4,16 @@ controllers:
     containers:
       main:
         image:
-          repository: santiagosayshey/profilarr
-          tag: v1.1.5
+          repository: ghcr.io/dictionarry-hub/profilarr
+          tag: latest
           pullPolicy: IfNotPresent
         env:
           PUID: 1000
-          PGID: 100
+          PGID: 1000
+          UMASK: "022"
           TZ: Europe/Brussels
+          ORIGIN: https://profilarr.lab254.lab.lan
+          AUTH: "on"
 
 service:
   main:
