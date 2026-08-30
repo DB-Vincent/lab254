@@ -57,12 +57,12 @@ data:
 
           - size: full
             widgets:
-            - type: rss
-              title: News
-              style: horizontal-cards
-              feeds:
-                - url: https://www.vrt.be/vrtnws/nl.rss.headlines.xml
-                - url: https://sporza.be/nl.rss.xml
+              - type: rss
+                title: News
+                style: horizontal-cards
+                feeds:
+                  - url: https://www.vrt.be/vrtnws/nl.rss.headlines.xml
+                  - url: https://sporza.be/nl.rss.xml
 
               - type: bookmarks
                 groups:
