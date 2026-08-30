@@ -4,3 +4,9 @@ namespace: default
 resources:
   - ./configmap.yaml
   - ./helmrelease.yaml
+configMapGenerator:
+  - name: glance-helm-values
+    files:
+      - values.yaml=./helm-values.yaml
+generatorOptions:
+  disableNameSuffixHash: true
