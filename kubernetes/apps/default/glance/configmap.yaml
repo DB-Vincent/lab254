@@ -1,0 +1,52 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: glance-config
+  namespace: default
+data:
+  glance.yml: |
+    server:
+      host: 0.0.0.0
+      port: 8080
+
+    pages:
+      - name: Home
+        columns:
+          - size: small
+            widgets:
+              - type: calendar
+                first-day-of-week: monday
+
+              - type: weather
+                location: Brussels, Belgium
+                units: metric
+                hour-format: 24h
+
+          - size: full
+            widgets:
+              - type: hacker-news
+
+              - type: bookmarks
+                groups:
+                  - title: Homelab
+                    links:
+                      - title: Headlamp
+                        url: https://headlamp.lab254.lab.lan
+                        icon: mdi:kubernetes
+                      - title: Immich
+                        url: https://immich.lab254.lab.lan
+                        icon: mdi:photo
+                      - title: Vaultwarden
+                        url: https://bitwarden.vincentdeborger.be
+                        icon: mdi:lock
+
+          - size: small
+            widgets:
+              - type: server-stats
+                servers:
+                  - type: local
+
+              - type: clock
+                timezones:
+                  - timezone: Europe/Brussels
+                    label: Brussels

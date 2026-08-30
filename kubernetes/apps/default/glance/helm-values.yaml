@@ -1,0 +1,43 @@
+controllers:
+  main:
+    containers:
+      main:
+        image:
+          repository: glanceapp/glance
+          tag: v0.8.5
+
+service:
+  main:
+    controller: main
+    ports:
+      http:
+        port: 8080
+
+ingress:
+  main:
+    className: cilium
+    annotations:
+      ingress.cilium.io/loadbalancer-mode: shared
+      cert-manager.io/cluster-issuer: internal-ca
+    hosts:
+      - host: glance.lab254.lab.lan
+        paths:
+          - path: /
+            pathType: Prefix
+            service:
+              identifier: main
+              port: http
+    tls:
+      - hosts:
+          - glance.lab254.lab.lan
+        secretName: glance-lab254-lan-tls
+
+persistence:
+  config:
+    enabled: true
+    type: configMap
+    name: glance-config
+    advancedMounts:
+      main:
+        main:
+          - path: /app/config
