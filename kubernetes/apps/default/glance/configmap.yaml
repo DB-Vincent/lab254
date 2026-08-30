@@ -14,25 +14,60 @@ data:
         columns:
           - size: small
             widgets:
-              - type: calendar
-                first-day-of-week: monday
+              - type: custom-api
+                title: Next Race
+                cache: 2h
+                url: https://f1api.dev/api/current/next
+                template: |
+                  <div class="flex flex-column gap-10">
+                    {{ $session := index (.JSON.Array "race") 0 }}
+                    <p class="size-h5">
+                      Round {{ .JSON.String "round" }}
+                    </p>
 
-              - type: weather
-                location: Brussels, Belgium
-                units: metric
-                hour-format: 24h
+                    <div class="margin-block-4">
+                      <p class="color-highlight">{{ $session.String "raceName" }}</p>
+                      <p class="color-primary">
+                        <span>Race</span>
+                        {{ $datetime := concat ($session.String "schedule.race.date") "T" ($session.String "schedule.race.time") }}
+                        <span
+                          class="color-highlight"
+                          title="{{ $session.String "schedule.race.date" }}"
+                          {{ parseRelativeTime "rfc3339" $datetime }}
+                        ></span>
+                      </p>
+                      <p class="size-h5">{{ $session.String "schedule.race.date" }} at {{ $session.String "schedule.race.time" }}</p>
+                    </div>
+
+                    <ul class="size-h5 attachments">
+                      <li>{{ $session.String "circuit.country" }}</li>
+                      <li>{{ $session.String "circuit.city" }}</li>
+                      <li>{{ $session.String "circuit.circuitName" }}</li>
+                    </ul>
+                  </div>
+
+              - type: group
+                widgets:
+                  - type: reddit
+                    subreddit: selfhosted
+                  - type: reddit
+                    subreddit: formula1
+                  - type: reddit
+                    subreddit: homeassistant
 
           - size: full
             widgets:
-              - type: hacker-news
+            - type: rss
+              title: News
+              style: horizontal-cards
+              feeds:
+                - url: https://www.vrt.be/vrtnws/nl.rss.headlines.xml
+                - url: https://sporza.be/nl.rss.xml
 
               - type: bookmarks
                 groups:
-                  - title: Homelab
+                  - title: Productivity & Files
                     links:
-                      - title: Headlamp
-                        url: https://headlamp.lab254.lab.lan
-                        icon: mdi:kubernetes
                       - title: Immich
                         url: https://immich.lab254.lab.lan
                         icon: mdi:photo
@@ -40,13 +75,63 @@ data:
                         url: https://bitwarden.vincentdeborger.be
                         icon: mdi:lock
 
+                  - title: Media & Entertainment
+                    links:
+                      - title: Jellyfin
+                        url: https://jelly.vincentdeborger.be
+                        icon: mdi:play-circle
+                      - title: Navidrome
+                        url: https://navidrome.lab254.lab.lan
+                        icon: mdi:music
+                      - title: Bazarr
+                        url: https://bazarr.lab254.lab.lan
+                        icon: mdi:subtitles
+                      - title: Lidarr
+                        url: https://lidarr.lab254.lab.lan
+                        icon: mdi:music-note
+                      - title: Radarr
+                        url: https://radarr.lab254.lab.lan
+                        icon: mdi:filmstrip
+                      - title: Sonarr
+                        url: https://sonarr.lab254.lab.lan
+                        icon: mdi:television
+                      - title: Prowlarr
+                        url: https://prowlarr.lab254.lab.lan
+                        icon: mdi:magnify
+                      - title: Profilarr
+                        url: https://profilarr.lab254.lab.lan
+                        icon: mdi:file-document
+                      - title: Seerr
+                        url: https://seerr.lab254.lab.lan
+                        icon: mdi:eye
+                      - title: Transmission
+                        url: https://transmission.lab254.lab.lan
+                        icon: mdi:download
+                      - title: FlareSolverr
+                        url: https://flaresolverr.lab254.lab.lan
+                        icon: mdi:shield
+
+                  - title: Development & Management
+                    links:
+                      - title: Headlamp
+                        url: https://headlamp.lab254.lab.lan
+                        icon: mdi:kubernetes
+
           - size: small
             widgets:
-              - type: server-stats
-                servers:
-                  - type: local
-
-              - type: clock
-                timezones:
-                  - timezone: Europe/Brussels
-                    label: Brussels
+              - type: releases
+                show-source-icon: true
+                repositories:
+                  - jellyfin/jellyfin
+                  - immich-app/immich
+                  - dani-garcia/vaultwarden
+                  - navidrome/navidrome
+                  - linuxserver/docker-bazarr
+                  - linuxserver/docker-lidarr
+                  - linuxserver/docker-radarr
+                  - linuxserver/docker-sonarr
+                  - linuxserver/docker-prowlarr
+                  - linuxserver/docker-transmission
+                  - seerr-team/seerr
+                  - dictionarry-hub/profilarr
+                  - FlareSolverr/FlareSolverr
