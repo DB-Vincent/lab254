@@ -37,7 +37,7 @@ data:
                     links:
                       - title: Immich
                         url: https://immich.lab254.lab.lan
-                        icon: mdi:photo
+                        icon: mdi:image-album
                       - title: Vaultwarden
                         url: https://bitwarden.vincentdeborger.be
                         icon: mdi:lock
@@ -48,40 +48,40 @@ data:
                         url: https://jelly.vincentdeborger.be
                         icon: mdi:play-circle
                       - title: Navidrome
-                        url: https://navidrome.lab254.lab.lan
+                        url: http://navidrome.lab254.lab.lan
                         icon: mdi:music
                       - title: Bazarr
-                        url: https://bazarr.lab254.lab.lan
+                        url: http://bazarr.lab254.lab.lan
                         icon: mdi:subtitles
                       - title: Lidarr
-                        url: https://lidarr.lab254.lab.lan
+                        url: http://lidarr.lab254.lab.lan
                         icon: mdi:music-note
                       - title: Radarr
-                        url: https://radarr.lab254.lab.lan
+                        url: http://radarr.lab254.lab.lan
                         icon: mdi:filmstrip
                       - title: Sonarr
-                        url: https://sonarr.lab254.lab.lan
+                        url: http://sonarr.lab254.lab.lan
                         icon: mdi:television
                       - title: Prowlarr
-                        url: https://prowlarr.lab254.lab.lan
+                        url: http://prowlarr.lab254.lab.lan
                         icon: mdi:magnify
                       - title: Profilarr
-                        url: https://profilarr.lab254.lab.lan
+                        url: http://profilarr.lab254.lab.lan
                         icon: mdi:file-document
                       - title: Seerr
-                        url: https://seerr.lab254.lab.lan
+                        url: http://seerr.lab254.lab.lan
                         icon: mdi:eye
                       - title: Transmission
-                        url: https://transmission.lab254.lab.lan
+                        url: http://transmission.lab254.lab.lan
                         icon: mdi:download
                       - title: FlareSolverr
-                        url: https://flaresolverr.lab254.lab.lan
+                        url: http://flaresolverr.lab254.lab.lan
                         icon: mdi:shield
 
                   - title: Development & Management
                     links:
                       - title: Headlamp
-                        url: https://headlamp.lab254.lab.lan
+                        url: http://headlamp.lab254.lab.lan
                         icon: mdi:kubernetes
 
           - size: small
