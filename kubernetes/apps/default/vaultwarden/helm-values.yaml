@@ -2,7 +2,7 @@ replicaCount: 1
 image:
   registry: ghcr.io
   repository: dani-garcia/vaultwarden
-  tag: 1.37.1-alpine
+  tag: 1.37.2-alpine
 service:
   type: ClusterIP
   port: 80
