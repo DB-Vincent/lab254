@@ -23,13 +23,39 @@ data:
                   - type: reddit
                     subreddit: homeassistant
 
+              - type: releases
+                show-source-icon: true
+                repositories:
+                  - jellyfin/jellyfin
+                  - immich-app/immich
+                  - dani-garcia/vaultwarden
+                  - navidrome/navidrome
+                  - linuxserver/docker-bazarr
+                  - linuxserver/docker-lidarr
+                  - linuxserver/docker-radarr
+                  - linuxserver/docker-sonarr
+                  - linuxserver/docker-prowlarr
+                  - linuxserver/docker-transmission
+                  - seerr-team/seerr
+                  - dictionarry-hub/profilarr
+                  - FlareSolverr/FlareSolverr
+
           - size: full
             widgets:
               - type: rss
-                title: News
+                title: AI
                 style: horizontal-cards
                 feeds:
-                  - url: https://www.vrt.be/vrtnws/nl.rss.headlines.xml
+                  - url: https://deepmind.com/blog/feed/basic/
+                  - url: https://openai.com/news/engineering/rss.xml
+                  - url: http://googleresearch.blogspot.com/atom.xml
+
+              - type: rss
+                title: Tech news
+                style: horizontal-cards
+                feeds:
+                  - url: http://www.forbes.com/entrepreneurs/index.xml
+                  - url: http://www.theverge.com/rss/full.xml
 
               - type: bookmarks
                 groups:
@@ -83,6 +109,9 @@ data:
                       - title: Headlamp
                         url: http://headlamp.lab254.lab.lan
                         icon: mdi:kubernetes
+                      - title HomeAssistant
+                        url: http://homeassistant.local:8123
+                        icon: mdi:home-automation
 
           - size: small
             widgets:
@@ -118,19 +147,17 @@ data:
                     </ul>
                   </div>
 
-              - type: releases
-                show-source-icon: true
-                repositories:
-                  - jellyfin/jellyfin
-                  - immich-app/immich
-                  - dani-garcia/vaultwarden
-                  - navidrome/navidrome
-                  - linuxserver/docker-bazarr
-                  - linuxserver/docker-lidarr
-                  - linuxserver/docker-radarr
-                  - linuxserver/docker-sonarr
-                  - linuxserver/docker-prowlarr
-                  - linuxserver/docker-transmission
-                  - seerr-team/seerr
-                  - dictionarry-hub/profilarr
-                  - FlareSolverr/FlareSolverr
+              - type: bookmarks
+                groups:
+                  - title: Quick links
+                    links:
+                      - title: Tweakers
+                        url: https://tweakers.net
+                      - title: Github
+                        url: https://github.com
+                      - title: Reddit
+                        url: https://reddit.com
+                      - title: Twitch
+                        url: https://twitch.tv
+                      - title: YouTube
+                        url: https://youtube.com
