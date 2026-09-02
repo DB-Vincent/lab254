@@ -109,7 +109,7 @@ data:
                       - title: Headlamp
                         url: http://headlamp.lab254.lab.lan
                         icon: mdi:kubernetes
-                      - title HomeAssistant
+                      - title: HomeAssistant
                         url: http://homeassistant.local:8123
                         icon: mdi:home-automation
 
