@@ -14,31 +14,88 @@ data:
         columns:
           - size: small
             widgets:
-              - type: group
-                widgets:
-                  - type: reddit
-                    subreddit: selfhosted
-                  - type: reddit
-                    subreddit: formula1
-                  - type: reddit
-                    subreddit: homeassistant
+              - type: monitor
+                title: "Cluster Services"
+                cache: 1m
+                sites:
+                  - title: Immich
+                    url: https://immich.lab254.lab.lan
+                    icon: mdi:image-album
+                    allow-insecure: true
+                  - title: Vaultwarden
+                    url: https://bitwarden.vincentdeborger.be
+                    icon: mdi:lock
+                  - title: Jellyfin
+                    url: https://jelly.vincentdeborger.be
+                    icon: mdi:play-circle
+                  - title: Navidrome
+                    url: http://navidrome.lab254.lab.lan
+                    icon: mdi:music
+                  - title: Bazarr
+                    url: http://bazarr.lab254.lab.lan
+                    icon: mdi:subtitles
+                  - title: Lidarr
+                    url: http://lidarr.lab254.lab.lan
+                    icon: mdi:music-note
+                  - title: Radarr
+                    url: http://radarr.lab254.lab.lan
+                    icon: mdi:filmstrip
+                  - title: Sonarr
+                    url: http://sonarr.lab254.lab.lan
+                    icon: mdi:television
+                  - title: Prowlarr
+                    url: http://prowlarr.lab254.lab.lan
+                    icon: mdi:magnify
+                  - title: Profilarr
+                    url: http://profilarr.lab254.lab.lan
+                    icon: mdi:file-document
+                  - title: Seerr
+                    url: http://seerr.lab254.lab.lan
+                    icon: mdi:eye
+                  - title: Transmission
+                    url: http://transmission.lab254.lab.lan
+                    icon: mdi:download
+                  - title: FlareSolverr
+                    url: http://flaresolverr.lab254.lab.lan
+                    icon: mdi:shield
+                  - title: Headlamp
+                    url: http://headlamp.lab254.lab.lan
+                    icon: mdi:kubernetes
+                  - title: HomeAssistant
+                    url: http://192.168.1.11:8123
+                    icon: mdi:home-automation
 
-              - type: releases
-                show-source-icon: true
-                repositories:
-                  - jellyfin/jellyfin
-                  - immich-app/immich
-                  - dani-garcia/vaultwarden
-                  - navidrome/navidrome
-                  - linuxserver/docker-bazarr
-                  - linuxserver/docker-lidarr
-                  - linuxserver/docker-radarr
-                  - linuxserver/docker-sonarr
-                  - linuxserver/docker-prowlarr
-                  - linuxserver/docker-transmission
-                  - seerr-team/seerr
-                  - dictionarry-hub/profilarr
-                  - FlareSolverr/FlareSolverr
+              - type: custom-api
+                title: Next Race
+                cache: 2h
+                url: https://f1api.dev/api/current/next
+                template: |
+                  <div class="flex flex-column gap-10">
+                    {{ $session := index (.JSON.Array "race") 0 }}
+                    <p class="size-h5">
+                      Round {{ .JSON.String "round" }}
+                    </p>
+
+                    <div class="margin-block-4">
+                      <p class="color-highlight">{{ $session.String "raceName" }}</p>
+                      <p class="color-primary">
+                        <span>Race</span>
+                        {{ $datetime := concat ($session.String "schedule.race.date") "T" ($session.String "schedule.race.time") }}
+                        <span
+                          class="color-highlight"
+                          title="{{ $session.String "schedule.race.date" }}"
+                          {{ parseRelativeTime "rfc3339" $datetime }}
+                        ></span>
+                      </p>
+                      <p class="size-h5">{{ $session.String "schedule.race.date" }} at {{ $session.String "schedule.race.time" }}</p>
+                    </div>
+
+                    <ul class="size-h5 attachments">
+                      <li>{{ $session.String "circuit.country" }}</li>
+                      <li>{{ $session.String "circuit.city" }}</li>
+                      <li>{{ $session.String "circuit.circuitName" }}</li>
+                    </ul>
+                  </div>
 
           - size: full
             widgets:
@@ -114,93 +171,36 @@ data:
                         url: http://headlamp.lab254.lab.lan
                         icon: mdi:kubernetes
                       - title: HomeAssistant
-                        url: http://homeassistant.local:8123
+                        url: http://192.168.1.11:8123
                         icon: mdi:home-automation
 
           - size: small
             widgets:
-              - type: monitor
-                title: "Cluster Services"
-                cache: 1m
-                sites:
-                  - title: Immich
-                    url: https://immich.lab254.lab.lan
-                    icon: mdi:image-album
-                    allow-insecure: true
-                  - title: Vaultwarden
-                    url: https://bitwarden.vincentdeborger.be
-                    icon: mdi:lock
-                  - title: Jellyfin
-                    url: https://jelly.vincentdeborger.be
-                    icon: mdi:play-circle
-                  - title: Navidrome
-                    url: http://navidrome.lab254.lab.lan
-                    icon: mdi:music
-                  - title: Bazarr
-                    url: http://bazarr.lab254.lab.lan
-                    icon: mdi:subtitles
-                  - title: Lidarr
-                    url: http://lidarr.lab254.lab.lan
-                    icon: mdi:music-note
-                  - title: Radarr
-                    url: http://radarr.lab254.lab.lan
-                    icon: mdi:filmstrip
-                  - title: Sonarr
-                    url: http://sonarr.lab254.lab.lan
-                    icon: mdi:television
-                  - title: Prowlarr
-                    url: http://prowlarr.lab254.lab.lan
-                    icon: mdi:magnify
-                  - title: Profilarr
-                    url: http://profilarr.lab254.lab.lan
-                    icon: mdi:file-document
-                  - title: Seerr
-                    url: http://seerr.lab254.lab.lan
-                    icon: mdi:eye
-                  - title: Transmission
-                    url: http://transmission.lab254.lab.lan
-                    icon: mdi:download
-                  - title: FlareSolverr
-                    url: http://flaresolverr.lab254.lab.lan
-                    icon: mdi:shield
-                  - title: Headlamp
-                    url: http://headlamp.lab254.lab.lan
-                    icon: mdi:kubernetes
-                  - title: HomeAssistant
-                    url: http://homeassistant.local:8123
-                    icon: mdi:home-automation
+              - type: group
+                widgets:
+                  - type: reddit
+                    subreddit: selfhosted
+                  - type: reddit
+                    subreddit: formula1
+                  - type: reddit
+                    subreddit: homeassistant
 
-              - type: custom-api
-                title: Next Race
-                cache: 2h
-                url: https://f1api.dev/api/current/next
-                template: |
-                  <div class="flex flex-column gap-10">
-                    {{ $session := index (.JSON.Array "race") 0 }}
-                    <p class="size-h5">
-                      Round {{ .JSON.String "round" }}
-                    </p>
-
-                    <div class="margin-block-4">
-                      <p class="color-highlight">{{ $session.String "raceName" }}</p>
-                      <p class="color-primary">
-                        <span>Race</span>
-                        {{ $datetime := concat ($session.String "schedule.race.date") "T" ($session.String "schedule.race.time") }}
-                        <span
-                          class="color-highlight"
-                          title="{{ $session.String "schedule.race.date" }}"
-                          {{ parseRelativeTime "rfc3339" $datetime }}
-                        ></span>
-                      </p>
-                      <p class="size-h5">{{ $session.String "schedule.race.date" }} at {{ $session.String "schedule.race.time" }}</p>
-                    </div>
-
-                    <ul class="size-h5 attachments">
-                      <li>{{ $session.String "circuit.country" }}</li>
-                      <li>{{ $session.String "circuit.city" }}</li>
-                      <li>{{ $session.String "circuit.circuitName" }}</li>
-                    </ul>
-                  </div>
+              - type: releases
+                show-source-icon: true
+                repositories:
+                  - jellyfin/jellyfin
+                  - immich-app/immich
+                  - dani-garcia/vaultwarden
+                  - navidrome/navidrome
+                  - linuxserver/docker-bazarr
+                  - linuxserver/docker-lidarr
+                  - linuxserver/docker-radarr
+                  - linuxserver/docker-sonarr
+                  - linuxserver/docker-prowlarr
+                  - linuxserver/docker-transmission
+                  - seerr-team/seerr
+                  - dictionarry-hub/profilarr
+                  - FlareSolverr/FlareSolverr
 
               - type: bookmarks
                 groups:
