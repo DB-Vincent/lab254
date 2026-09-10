@@ -19,14 +19,13 @@ data:
                 cache: 1m
                 sites:
                   - title: Immich
-                    url: https://immich.lab254.lab.lan
+                    url: http://immich-server.default.svc.cluster.local:2283
                     icon: mdi:image-album
-                    allow-insecure: true
                   - title: Vaultwarden
-                    url: https://bitwarden.vincentdeborger.be
+                    url: http://vaultwarden.default.svc.cluster.local
                     icon: mdi:lock
                   - title: Jellyfin
-                    url: https://jelly.vincentdeborger.be
+                    url: http://jellyfin-reverse-proxy.default.svc.cluster.local
                     icon: mdi:play-circle
                   - title: Navidrome
                     url: http://navidrome.lab254.lab.lan
@@ -123,16 +122,16 @@ data:
                   - title: Productivity & Files
                     links:
                       - title: Immich
-                        url: https://immich.lab254.lab.lan
+                        url: http://immich-server.default.svc.cluster.local:2283
                         icon: mdi:image-album
                       - title: Vaultwarden
-                        url: https://bitwarden.vincentdeborger.be
+                        url: http://vaultwarden.default.svc.cluster.local
                         icon: mdi:lock
 
                   - title: Media & Entertainment
                     links:
                       - title: Jellyfin
-                        url: https://jelly.vincentdeborger.be
+                        url: http://jellyfin-reverse-proxy.default.svc.cluster.local
                         icon: mdi:play-circle
                       - title: Navidrome
                         url: http://navidrome.lab254.lab.lan
