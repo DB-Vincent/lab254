@@ -42,20 +42,24 @@ data:
 
           - size: full
             widgets:
-              - type: rss
-                title: AI
-                style: horizontal-cards
-                feeds:
-                  - url: https://deepmind.com/blog/feed/basic/
-                  - url: https://openai.com/news/engineering/rss.xml
-                  - url: http://googleresearch.blogspot.com/atom.xml
+              - type: search
+                search-engine: google
+                autofocus: true
+                new-tab: true
+                placeholder: "Search Google..."
 
-              - type: rss
-                title: Tech news
+              - type: videos
+                title: "YouTube - Favorite Creators"
                 style: horizontal-cards
-                feeds:
-                  - url: http://www.forbes.com/entrepreneurs/index.xml
-                  - url: http://www.theverge.com/rss/full.xml
+                limit: 15
+                collapse-after: 7
+                channels:
+                  - UCR-DXc1voovS8nhAvccRZhg  # Jeff Geerling
+                  - UCBJycsmduvYEL83R_U4JriQ   # Marques Brownlee (MKBHD)
+                  - UCejzv0MInydp0Isrza8e0tw   # Jenna Phipps
+                  - UCLLpxcworT8275nBXODXyqw   # M539 Restorations
+                  - UCU-8YVqfsibfm6IhabWnvYA   # M539 Plus
+                  - UCnEZmnSrGrALq2ji4RrJK3A   # Makari Espe
 
               - type: bookmarks
                 groups:
@@ -115,6 +119,57 @@ data:
 
           - size: small
             widgets:
+              - type: monitor
+                title: "Cluster Services"
+                cache: 1m
+                sites:
+                  - title: Immich
+                    url: https://immich.lab254.lab.lan
+                    icon: mdi:image-album
+                    allow-insecure: true
+                  - title: Vaultwarden
+                    url: https://bitwarden.vincentdeborger.be
+                    icon: mdi:lock
+                  - title: Jellyfin
+                    url: https://jelly.vincentdeborger.be
+                    icon: mdi:play-circle
+                  - title: Navidrome
+                    url: http://navidrome.lab254.lab.lan
+                    icon: mdi:music
+                  - title: Bazarr
+                    url: http://bazarr.lab254.lab.lan
+                    icon: mdi:subtitles
+                  - title: Lidarr
+                    url: http://lidarr.lab254.lab.lan
+                    icon: mdi:music-note
+                  - title: Radarr
+                    url: http://radarr.lab254.lab.lan
+                    icon: mdi:filmstrip
+                  - title: Sonarr
+                    url: http://sonarr.lab254.lab.lan
+                    icon: mdi:television
+                  - title: Prowlarr
+                    url: http://prowlarr.lab254.lab.lan
+                    icon: mdi:magnify
+                  - title: Profilarr
+                    url: http://profilarr.lab254.lab.lan
+                    icon: mdi:file-document
+                  - title: Seerr
+                    url: http://seerr.lab254.lab.lan
+                    icon: mdi:eye
+                  - title: Transmission
+                    url: http://transmission.lab254.lab.lan
+                    icon: mdi:download
+                  - title: FlareSolverr
+                    url: http://flaresolverr.lab254.lab.lan
+                    icon: mdi:shield
+                  - title: Headlamp
+                    url: http://headlamp.lab254.lab.lan
+                    icon: mdi:kubernetes
+                  - title: HomeAssistant
+                    url: http://homeassistant.local:8123
+                    icon: mdi:home-automation
+
               - type: custom-api
                 title: Next Race
                 cache: 2h
