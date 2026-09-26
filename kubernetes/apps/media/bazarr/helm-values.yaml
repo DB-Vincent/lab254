@@ -5,7 +5,7 @@ controllers:
       main:
         image:
           repository: ghcr.io/linuxserver/bazarr
-          tag: 1.6.1
+          tag: 1.6.2
           pullPolicy: IfNotPresent
         env:
           PUID: 1000
