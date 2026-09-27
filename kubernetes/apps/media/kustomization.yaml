@@ -12,5 +12,6 @@ resources:
   - ./profilarr
   - ./lidarr
   - ./navidrome
+  - ./picard
   - ./slskd
   - ./soularr
