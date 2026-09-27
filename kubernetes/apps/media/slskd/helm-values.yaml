@@ -1,0 +1,88 @@
+controllers:
+  main:
+    replicas: 1
+    pod:
+      securityContext:
+        fsGroup: 100
+    initContainers:
+      prepare-downloads:
+        image:
+          repository: busybox
+          tag: 1.37.0
+          pullPolicy: IfNotPresent
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 100
+        command:
+          - /bin/sh
+          - -ec
+          - |
+            mkdir -p /downloads/soularr/.incomplete
+            chmod 2775 /downloads/soularr /downloads/soularr/.incomplete
+    containers:
+      main:
+        image:
+          repository: slskd/slskd
+          tag: 0.26.0
+          pullPolicy: IfNotPresent
+        securityContext:
+          # The slskd entrypoint runs groupmod/usermod to apply PUID/PGID, which
+          # requires a writable /etc.
+          readOnlyRootFilesystem: false
+        env:
+          PUID: 1000
+          PGID: 100
+          TZ: Europe/Brussels
+          # Required so the Soulseek network credentials can be entered from the web UI.
+          SLSKD_REMOTE_CONFIGURATION: "true"
+          SLSKD_DOWNLOADS_DIR: /downloads/soularr
+          SLSKD_INCOMPLETE_DIR: /downloads/soularr/.incomplete
+        envFrom:
+          - secretRef:
+              name: slskd-credentials
+
+service:
+  main:
+    controller: main
+    type: ClusterIP
+    ports:
+      http:
+        port: 5030
+
+ingress:
+  main:
+    className: cilium
+    annotations:
+      ingress.cilium.io/loadbalancer-mode: shared
+    hosts:
+      - host: slskd.lab254.lab.lan
+        paths:
+          - path: /
+            pathType: Prefix
+            service:
+              identifier: main
+              port: http
+
+persistence:
+  config:
+    enabled: true
+    storageClass: longhorn
+    size: 2Gi
+    accessMode: ReadWriteOnce
+    advancedMounts:
+      main:
+        main:
+          - path: /app
+  downloads:
+    enabled: true
+    type: nfs
+    server: 172.16.2.23
+    path: /Plex
+    advancedMounts:
+      main:
+        main:
+          - path: /downloads
+            subPath: downloads
+        prepare-downloads:
+          - path: /downloads
+            subPath: downloads
