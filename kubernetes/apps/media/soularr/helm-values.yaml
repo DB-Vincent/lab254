@@ -26,9 +26,10 @@ configMaps:
     enabled: true
     data:
       # The doubled dollar signs are not a typo. Flux's kustomize-controller runs
-      # envsubst in strict mode over generated ConfigMaps, so a bare ${VAR}
-      # fails the build with "variable not set". $$ escapes to a literal $, and
-      # soularr expands ${VAR} from its own environment at startup.
+      # envsubst in strict mode over generated ConfigMaps, so a bare dollar-brace
+      # placeholder fails the build with "variable not set". The doubled dollar
+      # escapes to a literal dollar, and soularr expands the placeholder from its
+      # own environment at startup.
       config.ini: |-
         [Lidarr]
         api_key = $${LIDARR_API_KEY}
