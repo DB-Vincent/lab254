@@ -11,7 +11,7 @@ controllers:
           TZ: Europe/Brussels
           ND_SCANSCHEDULE: 1h
           ND_LOGLEVEL: info
-          ND_MUSICFOLDER: /music
+          ND_MUSICFOLDER: /music/Music
 
 defaultPodOptions:
   securityContext:
