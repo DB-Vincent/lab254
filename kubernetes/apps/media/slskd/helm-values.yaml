@@ -17,8 +17,8 @@ controllers:
           - /bin/sh
           - -ec
           - |
-            mkdir -p /downloads/soularr/.incomplete
-            chmod 2775 /downloads/soularr /downloads/soularr/.incomplete
+            mkdir -p /downloads/slskd/.incomplete
+            chmod 2775 /downloads/slskd /downloads/slskd/.incomplete
     containers:
       main:
         image:
@@ -35,8 +35,12 @@ controllers:
           TZ: Europe/Brussels
           # Required so the Soulseek network credentials can be entered from the web UI.
           SLSKD_REMOTE_CONFIGURATION: "true"
-          SLSKD_DOWNLOADS_DIR: /downloads/soularr
-          SLSKD_INCOMPLETE_DIR: /downloads/soularr/.incomplete
+          # Required by Lidarr.Plugin.Slskd: with this off, imports still succeed but
+          # completed downloads are never deleted and the folder fills up.
+          SLSKD_REMOTE_FILE_MANAGEMENT: "true"
+          # Consumed by the Lidarr plugin, not by soularr (removed).
+          SLSKD_DOWNLOADS_DIR: /downloads/slskd
+          SLSKD_INCOMPLETE_DIR: /downloads/slskd/.incomplete
         envFrom:
           - secretRef:
               name: slskd-credentials

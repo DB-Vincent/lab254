@@ -1,11 +1,61 @@
 controllers:
   main:
     replicas: 1
+    initContainers:
+      install-slskd-plugin:
+        image:
+          repository: busybox
+          tag: 1.38.0
+          pullPolicy: IfNotPresent
+        # Deliberately no securityContext: init containers run before the main
+        # container, so on a fresh volume this must be able to write /config itself.
+        # The longhorn PVC only becomes 1000:100 once the linuxserver entrypoint has
+        # chowned it, and that never happens if this container cannot write first.
+        env:
+          # Lidarr.Plugin.Slskd is only built against Lidarr's develop branch and will
+          # not load on the stable channel, so a nightly build is unavoidable. linuxserver
+          # publishes one immutable tag per nightly build, so pin it rather than tracking
+          # the floating `nightly`: same digest today, but it stops an untested build
+          # from replacing this one on the next pod start.
+          #
+          # Bump with the plugin: raise PLUGIN_VERSION + PLUGIN_SHA256 below, verify the
+          # new tag resolves, then move this pin to the matching
+          # `nightly-<lidarr-version>-ls<build>` tag.
+          PLUGIN_VERSION: v1.1.5.0
+          PLUGIN_SHA256: 3dd8e8d24befcb78bb4898f006d79baa97da52c510439c9d256c629502fd7402
+        command:
+          - /bin/sh
+          - -ec
+          - |
+            plugin_dir=/config/plugins/allquiet-hub/Lidarr.Plugin.Slskd
+            if [ -f "$plugin_dir/.version" ] && [ "$(cat "$plugin_dir/.version")" = "$PLUGIN_VERSION" ]; then
+              echo "Lidarr.Plugin.Slskd $PLUGIN_VERSION already installed"
+              exit 0
+            fi
+            url="https://github.com/allquiet-hub/Lidarr.Plugin.Slskd/releases/download/$PLUGIN_VERSION/Lidarr.Plugin.Slskd.net8.0.zip"
+            zip=/tmp/Lidarr.Plugin.Slskd.net8.0.zip
+            # A transient GitHub failure should not crash-loop the pod, but a genuinely
+            # missing or mismatched artifact must fail loudly.
+            for attempt in 1 2 3; do
+              if wget -q -O "$zip" "$url"; then
+                break
+              fi
+              echo "download attempt $attempt failed, retrying"
+              sleep 5
+            done
+            printf '%s  %s\n' "$PLUGIN_SHA256" "$zip" | sha256sum -c -
+            rm -rf "$plugin_dir"
+            mkdir -p "$plugin_dir"
+            unzip -q "$zip" -d "$plugin_dir"
+            printf '%s' "$PLUGIN_VERSION" > "$plugin_dir/.version"
+            rm -f "$zip"
     containers:
       main:
         image:
           repository: ghcr.io/linuxserver/lidarr
-          tag: 3.1.0
+          # Point pin for the nightly channel; see the note on the init container above.
+          # Verified to resolve to the same image as `nightly`.
+          tag: nightly-3.1.6.5078-ls218
           pullPolicy: IfNotPresent
         env:
           PUID: 1000
@@ -43,6 +93,8 @@ persistence:
     advancedMounts:
       main:
         main:
+          - path: /config
+        install-slskd-plugin:
           - path: /config
   data:
     enabled: true

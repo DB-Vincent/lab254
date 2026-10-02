@@ -13,4 +13,3 @@ resources:
   - ./lidarr
   - ./navidrome
   - ./slskd
-  - ./soularr
