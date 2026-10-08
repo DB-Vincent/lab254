@@ -26,8 +26,9 @@ controllers:
           tag: v1.2.0
           pullPolicy: IfNotPresent
         securityContext:
-          runAsUser: 1000
-          runAsGroup: 100
+          # The entrypoint applies PUID/PGID and writes its cron jobs, so it must
+          # start as root and drop privileges (same pattern as slskd).
+          readOnlyRootFilesystem: false
         env:
           TZ: Europe/Brussels
           PUID: 1000
