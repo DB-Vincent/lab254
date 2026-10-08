@@ -5,7 +5,7 @@ resources:
   - ./secret.sops.yaml
   - ./helmrelease.yaml
 configMapGenerator:
-  - name: lidify-helm-values
+  - name: explo-helm-values
     files:
       - values.yaml=./helm-values.yaml
 generatorOptions:
