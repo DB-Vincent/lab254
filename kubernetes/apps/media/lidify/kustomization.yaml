@@ -5,7 +5,7 @@ resources:
   - ./secret.sops.yaml
   - ./helmrelease.yaml
 configMapGenerator:
-  - name: navidrome-helm-values
+  - name: lidify-helm-values
     files:
       - values.yaml=./helm-values.yaml
 generatorOptions:

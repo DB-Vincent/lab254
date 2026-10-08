@@ -12,6 +12,13 @@ controllers:
           ND_SCANSCHEDULE: 1h
           ND_LOGLEVEL: info
           ND_MUSICFOLDER: /music/Music
+          # ListenBrainz scrobbling is enabled by default; it is linked per user from
+          # the Navidrome UI (Personal settings) once a ListenBrainz token is pasted in.
+        envFrom:
+          # Provides ND_LASTFM_APIKEY and ND_LASTFM_SECRET for Last.fm scrobbling.
+          # Each user still has to link their Last.fm account from the UI afterwards.
+          - secretRef:
+              name: navidrome-scrobbler
 
 defaultPodOptions:
   securityContext:
