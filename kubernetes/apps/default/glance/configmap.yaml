@@ -30,6 +30,9 @@ data:
                   - title: Navidrome
                     url: http://navidrome.lab254.lab.lan
                     icon: mdi:music
+                  - title: Aurral
+                    url: http://aurral.lab254.lab.lan
+                    icon: mdi:music-circle
                   - title: Bazarr
                     url: http://bazarr.lab254.lab.lan
                     icon: mdi:subtitles
@@ -136,6 +139,9 @@ data:
                       - title: Navidrome
                         url: http://navidrome.lab254.lab.lan
                         icon: mdi:music
+                      - title: Aurral
+                        url: http://aurral.lab254.lab.lan
+                        icon: mdi:music-circle
                       - title: Bazarr
                         url: http://bazarr.lab254.lab.lan
                         icon: mdi:subtitles
@@ -191,6 +197,7 @@ data:
                   - immich-app/immich
                   - dani-garcia/vaultwarden
                   - navidrome/navidrome
+                  - lklynet/aurral
                   - linuxserver/docker-bazarr
                   - linuxserver/docker-lidarr
                   - linuxserver/docker-radarr
