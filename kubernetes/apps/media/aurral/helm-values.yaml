@@ -68,7 +68,7 @@ persistence:
   config:
     enabled: true
     storageClass: longhorn
-    size: 5Gi
+    size: 2Gi
     accessMode: ReadWriteOnce
     advancedMounts:
       main:
