@@ -3,7 +3,7 @@ settings:
     ingressClass: bunkerweb
   misc:
     dnsResolvers: "kube-dns.kube-system.svc.cluster.local"
-    apiWhitelistIp: "127.0.0.0/8 10.0.0.0/8 172.16.2.0/12 192.168.0.0/16"
+    apiWhitelistIp: "127.0.0.0/8 10.0.0.0/8 172.16.0.0/12 192.168.0.0/16"
 
 service:
   enabled: true
