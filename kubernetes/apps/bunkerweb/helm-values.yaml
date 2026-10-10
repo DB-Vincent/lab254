@@ -1,0 +1,43 @@
+settings:
+  kubernetes:
+    ingressClass: bunkerweb
+  misc:
+    dnsResolvers: "kube-dns.kube-system.svc.cluster.local"
+    apiWhitelistIp: "127.0.0.0/8 10.0.0.0/8 172.16.2.0/12 192.168.0.0/16"
+
+service:
+  enabled: true
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  annotations:
+    io.cilium/lb-ipam-ips: "172.16.2.202"
+
+bunkerweb:
+  enabled: true
+  kind: Deployment
+  enableInstance: true
+  replicas: 1
+  repository: docker.io/bunkerity/bunkerweb
+  tag: 1.6.15
+  hostPorts: false
+
+controller:
+  enabled: true
+  kind: Deployment
+  replicas: 1
+
+ui:
+  enabled: true
+  ingress:
+    enabled: true
+    ingressClassName: cilium
+    serverName: bw.lab254.lab.lan
+    tlsSecretName: ""
+    extraAnnotations:
+      ingress.cilium.io/loadbalancer-mode: shared
+
+redis:
+  enabled: true
+
+mariadb:
+  enabled: true
