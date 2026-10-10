@@ -41,3 +41,6 @@ redis:
 
 mariadb:
   enabled: true
+  persistence:
+    # 1Gi: Longhorn scheduling headroom on the workers only allows ~1.6Gi.
+    size: 1Gi
