@@ -1,0 +1,28 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: navidrome-external
+  namespace: media
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    ingress.cilium.io/loadbalancer-mode: shared
+    ingress.cilium.io/force-https: disabled
+    acme.cert-manager.io/http01-edit-in-place: "true"
+spec:
+  ingressClassName: cilium
+  rules:
+    - host: navi.vincentdeborger.be
+      http:
+        paths:
+          - path: /
+            backend:
+              service:
+                name: navidrome
+                port:
+                  number: 4533
+            pathType: Prefix
+  tls:
+    - hosts:
+        - navi.vincentdeborger.be
+      secretName: navi-vincentdeborger-be-tls

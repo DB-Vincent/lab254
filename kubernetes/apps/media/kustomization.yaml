@@ -11,7 +11,6 @@ resources:
   - ./flaresolverr
   - ./profilarr
   - ./lidarr
-  - ./explo
   - ./navidrome
   - ./slskd
   - ./aurral
