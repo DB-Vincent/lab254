@@ -7,4 +7,3 @@ resources:
   - ./media
   - ./longhorn-system
   - ./cnpg-system
-  - ./bunkerweb
