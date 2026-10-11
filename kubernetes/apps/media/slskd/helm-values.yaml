@@ -23,7 +23,7 @@ controllers:
       main:
         image:
           repository: slskd/slskd
-          tag: 0.26.0
+          tag: 0.26.1
           pullPolicy: IfNotPresent
         securityContext:
           # The slskd entrypoint runs groupmod/usermod to apply PUID/PGID, which
