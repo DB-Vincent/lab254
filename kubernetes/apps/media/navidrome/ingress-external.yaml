@@ -6,9 +6,11 @@ metadata:
   namespace: media
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    ingress.cilium.io/loadbalancer-mode: shared
+    ingress.cilium.io/force-https: disabled
     acme.cert-manager.io/http01-edit-in-place: "true"
 spec:
-  ingressClassName: bunkerweb
+  ingressClassName: cilium
   rules:
     - host: navi.vincentdeborger.be
       http:

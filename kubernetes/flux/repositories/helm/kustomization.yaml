@@ -5,7 +5,6 @@ resources:
   - rook.yaml
   - bjw-s.yaml
   - longhorn.yaml
-  - bunkerweb.yaml
   - cilium.yaml
   - headlamp.yaml
   - cloudnative-pg.yaml
