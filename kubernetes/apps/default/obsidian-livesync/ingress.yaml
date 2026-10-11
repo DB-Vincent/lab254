@@ -5,10 +5,10 @@ metadata:
   name: obsidian-livesync
   namespace: default
   annotations:
-    ingress.cilium.io/loadbalancer-mode: shared
     cert-manager.io/cluster-issuer: letsencrypt-prod
+    acme.cert-manager.io/http01-edit-in-place: "true"
 spec:
-  ingressClassName: cilium
+  ingressClassName: bunkerweb
   tls:
     - hosts:
         - couchdb.vincentdeborger.be

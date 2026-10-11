@@ -11,9 +11,4 @@ spec:
     solvers:
       - http01:
           ingress:
-            ingressClassName: cilium
-            ingressTemplate:
-              metadata:
-                annotations:
-                  "ingress.cilium.io/loadbalancer-mode": "shared"
-                  "ingress.cilium.io/force-https": "disabled"
+            ingressClassName: bunkerweb
