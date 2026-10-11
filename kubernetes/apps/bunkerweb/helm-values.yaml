@@ -1,6 +1,16 @@
 settings:
   kubernetes:
     ingressClass: bunkerweb
+  ui:
+    # The chart only honours ingress under settings.ui, not the top-level ui key.
+    ingress:
+      enabled: true
+      ingressClassName: cilium
+      serverName: bw.lab254.lab.lan
+      serverPath: "/"
+      tlsSecretName: ""
+      extraAnnotations:
+        ingress.cilium.io/loadbalancer-mode: shared
   misc:
     dnsResolvers: "kube-dns.kube-system.svc.cluster.local"
     apiWhitelistIp: "127.0.0.0/8 10.0.0.0/8 172.16.0.0/12 192.168.0.0/16"
@@ -30,13 +40,6 @@ controller:
 
 ui:
   enabled: true
-  ingress:
-    enabled: true
-    ingressClassName: cilium
-    serverName: bw.lab254.lab.lan
-    tlsSecretName: ""
-    extraAnnotations:
-      ingress.cilium.io/loadbalancer-mode: shared
 
 redis:
   enabled: true
