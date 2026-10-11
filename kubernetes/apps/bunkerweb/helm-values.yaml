@@ -2,6 +2,10 @@ settings:
   kubernetes:
     ingressClass: bunkerweb
   ui:
+    # Stable signing key for the UI session cookie. Without this, each gunicorn
+    # worker signs with its own random key and the setup wizard's CSRF token is
+    # rejected on every POST, looping back to /setup forever.
+    flaskSecret: "ondMmpJqL1Wlcyhb9HeAtEX9I4Y9sn6mKAl3DJE"
     # The chart only honours ingress under settings.ui, not the top-level ui key.
     ingress:
       enabled: true
