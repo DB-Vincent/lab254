@@ -17,8 +17,8 @@ controllers:
           - /bin/sh
           - -ec
           - |
-            mkdir -p /data/downloads/aurral
-            chmod 2775 /data/downloads/aurral
+            mkdir -p /music/downloads/aurral
+            chmod 2775 /music/downloads/aurral
     containers:
       main:
         image:
@@ -35,12 +35,13 @@ controllers:
           PUID: 1000
           PGID: 100
           AURRAL_DATA_DIR: /config
-          # Downloads Folder, under the same /data mount Lidarr uses.
-          DOWNLOAD_FOLDER: /data/downloads/aurral
-          FILE_BROWSE_ROOTS: /data
+          # Downloads Folder, under the /music mount Navidrome uses, so the
+          # paths Aurral reports to Navidrome's /api/library resolve correctly.
+          DOWNLOAD_FOLDER: /music/downloads/aurral
+          FILE_BROWSE_ROOTS: /music
           # slskd only mounts /Plex/downloads, which it sees as /downloads;
-          # translate the paths it reports to the /data paths Aurral sees.
-          PATH_MAPPINGS: "slskd|/downloads|/data/downloads"
+          # translate the paths it reports to the /music paths Aurral sees.
+          PATH_MAPPINGS: "slskd|/downloads|/music/downloads"
 
 service:
   main:
@@ -82,6 +83,6 @@ persistence:
     advancedMounts:
       main:
         main:
-          - path: /data
+          - path: /music
         prepare-dirs:
-          - path: /data
+          - path: /music
