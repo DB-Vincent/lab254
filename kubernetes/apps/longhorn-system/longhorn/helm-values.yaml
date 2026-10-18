@@ -3,6 +3,14 @@
 
 defaultSettings:
   defaultDataPath: /var/lib/longhorn
+  # Longhorn schedules against the *provisioned* (nominal) size of every replica,
+  # not actual usage. Each disk also has 30% reserved by default, so the
+  # schedulable budget is (max - reserved). With 18 thin volumes (71 GiB nominal)
+  # and only two Longhorn nodes the budget is 68.4 GiB, i.e. already exceeded:
+  # new PVCs failed with "insufficient storage" while actual usage was only ~12%.
+  # The disk's real free-space guard (storage-minimal-available-percentage, 25%)
+  # is unaffected by this and still prevents the disk from filling up.
+  storageOverProvisioningPercentage: 200
 
 persistence:
   # Only worker-01 and worker-02 are Longhorn nodes (control-01 is not), so a
