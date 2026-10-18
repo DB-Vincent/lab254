@@ -1,0 +1,76 @@
+# AudioMuse-AI - local sonic analysis (tempo, timbre, energy, key) that powers
+# Navidrome's "Instant Mix" and similar songs/artists entirely from the audio
+# files, with no dependency on Last.fm/Deezer metadata.
+#
+# It pulls audio from Navidrome over the Subsonic API and analyses it in a
+# worker, so it needs no music mount of its own - just a database (settings and
+# analysis results), a queue worker and the Flask UI. It does NOT read the NFS
+# share directly.
+fullnameOverride: audiomuse
+timezone: Europe/Brussels
+
+image:
+  # Bump together with the plugin pin in ../../navidrome/helm-values.yaml:
+  # AudioMuse core, the Navidrome plugin and Navidrome itself must stay
+  # version-aligned or sonic queries start failing (see the compatibility note
+  # in AudioMuse-AI-NV-plugin's README).
+  tag: "3.6.4"
+  # Upstream defaults to Always; the tag above is immutable, so only pull when
+  # it is genuinely missing from the node.
+  pullPolicy: IfNotPresent
+
+flask:
+  service:
+    # Repo convention: ClusterIP behind the Cilium Ingress, not a LoadBalancer.
+    type: ClusterIP
+  resources:
+    requests:
+      cpu: 100m
+      memory: 512Mi
+    limits:
+      memory: 2Gi
+
+worker:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 512Mi
+    limits:
+      # Analysis is CPU-bound. Cap it so a first pass over the whole library
+      # cannot starve the rest of the node (~4 allocatable cores per node);
+      # raise this if the initial analysis is too slow.
+      cpu: "2"
+      memory: 4Gi
+
+postgres:
+  # Use the cluster-wide CloudNativePG operator instead of the chart's bundled
+  # Postgres. CNPG owns the credentials: the audiomuse-pg-app secret holds
+  # username/password/dbname and audiomuse-pg-rw is the read-write service.
+  enabled: false
+  external:
+    host: audiomuse-pg-rw
+    port: 5432
+  existingSecret: audiomuse-pg-app
+  existingSecretKeys:
+    user: username
+    password: password
+    db: dbname
+
+redis:
+  # Chart carry-over: AudioMuse 3.x keeps its task queue in Postgres and no
+  # longer ships Redis in its own compose file. Left enabled because the chart
+  # still injects REDIS_URL, and disabling it requires supplying a bogus
+  # external URL - the extra pod is cheap insurance if a future release uses
+  # Redis again.
+  enabled: true
+
+ingress:
+  enabled: true
+  className: cilium
+  annotations:
+    ingress.cilium.io/loadbalancer-mode: shared
+  hosts:
+    - host: audiomuse.lab254.lab.lan
+      paths:
+        - path: /
+          pathType: Prefix

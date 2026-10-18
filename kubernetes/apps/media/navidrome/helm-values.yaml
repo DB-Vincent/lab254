@@ -1,6 +1,50 @@
 controllers:
   main:
     replicas: 1
+    initContainers:
+      install-audiomuse-plugin:
+        image:
+          repository: busybox
+          tag: 1.38.0
+          pullPolicy: IfNotPresent
+        # Runs as Navidrome's own UID/GID so it can write into the /data PVC
+        # (group-writable via fsGroup 100) without touching ownership.
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 100
+        env:
+          # AudioMuse-AI core, this plugin and Navidrome must stay version
+          # aligned. v10 is the plugin release matching core 3.6.x (pinned in
+          # ../../audiomuse/helm-values.yaml). When bumping, refresh the
+          # checksum too, then move the pin in both files together.
+          PLUGIN_VERSION: v10
+          PLUGIN_SHA256: c138e9af16f097d8cd07ac957fb8a49d91a7da066e5b4a1457cadbd479aa10a7
+        command:
+          - /bin/sh
+          - -ec
+          - |
+            ndp=/data/plugins/audiomuseai.ndp
+            version_file=/data/plugins/.audiomuseai.version
+            if [ -f "$ndp" ] && [ "$(cat "$version_file" 2>/dev/null)" = "$PLUGIN_VERSION" ]; then
+              echo "audiomuseai.ndp $PLUGIN_VERSION already installed"
+              exit 0
+            fi
+            mkdir -p /data/plugins
+            url="https://github.com/NeptuneHub/AudioMuse-AI-NV-plugin/releases/download/$PLUGIN_VERSION/audiomuseai.ndp"
+            # A transient GitHub failure should not crash-loop the pod, but a
+            # genuinely missing or mismatched artifact must fail loudly - the
+            # checksum is what makes this download trustworthy, since busybox
+            # wget does not validate TLS certificates.
+            for attempt in 1 2 3; do
+              if wget -q -O /tmp/audiomuseai.ndp "$url"; then
+                break
+              fi
+              echo "download attempt $attempt failed, retrying"
+              sleep 5
+            done
+            printf '%s  %s\n' "$PLUGIN_SHA256" /tmp/audiomuseai.ndp | sha256sum -c -
+            mv /tmp/audiomuseai.ndp "$ndp"
+            printf '%s' "$PLUGIN_VERSION" > "$version_file"
     containers:
       main:
         image:
@@ -12,6 +56,16 @@ controllers:
           ND_SCANSCHEDULE: 1h
           ND_LOGLEVEL: info
           ND_MUSICFOLDER: /music/Music
+          # Plugin system: the AudioMuse-AI .ndp is installed onto the /data PVC
+          # by the init container above. AutoReload lets a refreshed plugin be
+          # picked up without restarting the pod.
+          ND_PLUGINS_ENABLED: "true"
+          ND_PLUGINS_AUTORELOAD: "true"
+          # audiomuseai must stay first: Navidrome answers sonic-similarity
+          # queries with the first agent that supports them. The rest is
+          # Navidrome's built-in default order, kept so artist info and similar
+          # artist lookups behave exactly as before.
+          ND_AGENTS: audiomuseai,deezer,lastfm,listenbrainz
           # Library 1 only. Aurral's playlist songs live outside it, at
           # /music/playlists/aurral (the whole /Plex share is mounted at
           # /music), and are scanned through a second "Aurral Playlists"
@@ -61,6 +115,8 @@ persistence:
     advancedMounts:
       main:
         main:
+          - path: /data
+        install-audiomuse-plugin:
           - path: /data
   music:
     enabled: true

@@ -9,5 +9,6 @@ resources:
   - headlamp.yaml
   - cloudnative-pg.yaml
   - immich.yaml
+  - audiomuse.yaml
   - cert-manager.yaml
   - vaultwarden.yaml
