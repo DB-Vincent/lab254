@@ -4,3 +4,11 @@
 defaultSettings:
   defaultDataPath: /var/lib/longhorn
 
+persistence:
+  # Only worker-01 and worker-02 are Longhorn nodes (control-01 is not), so a
+  # third replica can never be placed: with the default of 3 every volume sat
+  # permanently "degraded" at 2/3, and brand new volumes could not be created
+  # at all when one of the two disks was full. 2 replicas = one per node = the
+  # healthy maximum for this cluster.
+  defaultClassReplicaCount: 2
+
