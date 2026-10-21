@@ -3,7 +3,7 @@ controllers:
     containers:
       main:
         image:
-          tag: v3.3.1
+          tag: v3.3.5
         env:
           REDIS_HOSTNAME: '{{ printf "%s-valkey" .Release.Name }}'
           DB_HOSTNAME:
