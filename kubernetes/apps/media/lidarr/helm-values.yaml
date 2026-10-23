@@ -61,6 +61,12 @@ controllers:
           PUID: 1000
           PGID: 100
           TZ: Europe/Brussels
+          # The library is shared NFS storage (/data -> /Plex) written by several
+          # apps that all run as 1000:100. The image default umask 022 creates 2755
+          # directories and 644 files, so only Lidarr can write inside the album
+          # folders it imports; 002 gives 2775/664, matching the group-writable
+          # convention in AGENTS.md and keeping every app on gid 100 able to write.
+          UMASK: "002"
 
 service:
   main:
