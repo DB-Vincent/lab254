@@ -37,9 +37,10 @@ controllers:
           AURRAL_DATA_DIR: /config
           # Downloads Folder: playlist songs, flow media and playlist artwork.
           # Deliberately outside /music/downloads, so nothing Aurral owns lands
-          # in slskd's raw download tree. Lives under the /music mount Navidrome
-          # uses, so the paths Aurral reports to Navidrome's /api/library
-          # resolve correctly (/music/playlists/aurral in both containers).
+          # in slskd's raw download tree. Kept on the /music mount Navidrome
+          # also uses, so the paths would still resolve if playlist publishing
+          # to Navidrome is re-enabled (it is currently disabled there; see
+          # ../../navidrome/helm-values.yaml).
           DOWNLOAD_FOLDER: /music/playlists/aurral
           FILE_BROWSE_ROOTS: /music
           # slskd only mounts /Plex/downloads, which it sees as /downloads;

@@ -66,10 +66,14 @@ controllers:
           # Navidrome's built-in default order, kept so artist info and similar
           # artist lookups behave exactly as before.
           ND_AGENTS: audiomuseai,deezer,lastfm,listenbrainz
-          # Library 1 only. Aurral's playlist songs live outside it, at
-          # /music/playlists/aurral (the whole /Plex share is mounted at
-          # /music), and are scanned through a second "Aurral Playlists"
-          # library whose path Aurral sets from Settings > Navidrome.
+          # Single library: only /music/Music is indexed. Aurral's playlist
+          # songs live outside it, at /music/playlists/aurral (the whole /Plex
+          # share is mounted at /music), and are deliberately not scanned.
+          # Aurral used to register a second "Aurral Playlists" library via
+          # /api/library; its Navidrome playback destination is now disabled
+          # (Settings > Integrations), so that library is gone for good.
+          # Re-enabling that destination makes Aurral re-create it on the next
+          # playlist sync.
           # ListenBrainz scrobbling is enabled by default; it is linked per user from
           # the Navidrome UI (Personal settings) once a ListenBrainz token is pasted in.
         envFrom:
