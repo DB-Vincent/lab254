@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: forage
+  namespace: media
+  labels:
+    app.kubernetes.io/name: forage
+spec:
+  # SQLite and the in-process scheduler both require exactly one writer.
+  # Do not scale this up, and do not switch to RollingUpdate.
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: forage
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: forage
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 65532
+        runAsGroup: 65532
+        fsGroup: 65532
+      containers:
+        - name: forage
+          image: ghcr.io/db-vincent/forage:latest
+          # `latest` is rebuilt on every push to forage's main branch, so always
+          # re-check the registry rather than trusting a stale node cache.
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: forage-config
+            - secretRef:
+                name: forage-secrets
+          volumeMounts:
+            - name: data
+              mountPath: /data
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: http
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 30
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: forage-data

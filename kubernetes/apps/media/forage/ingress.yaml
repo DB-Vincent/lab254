@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: forage
+  namespace: media
+  annotations:
+    ingress.cilium.io/loadbalancer-mode: shared
+    cert-manager.io/cluster-issuer: internal-ca
+spec:
+  ingressClassName: cilium
+  rules:
+    - host: forage.lab254.lab.lan
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: forage
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - forage.lab254.lab.lan
+      secretName: forage-lab254-lan-tls

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: forage-config
+  namespace: media
+data:
+  FORAGE_ADDR: ":8080"
+  FORAGE_DATA_DIR: "/data"
+  FORAGE_TIMEZONE: "Europe/Brussels"
+  FORAGE_MB_USER_AGENT: "forage/0.1 (https://github.com/DB-Vincent/forage)"
+  # Lidarr's library root is mounted at /data inside the Lidarr pod.
+  FORAGE_LIDARR_URL: "http://lidarr.lab254.lab.lan"
+  FORAGE_LIDARR_ROOT_FOLDER: /data/Music
+  FORAGE_LIDARR_QUALITY_PROFILE: 1
+  FORAGE_LIDARR_METADATA_PROFILE: 1
+  # Navidrome config
+  FORAGE_NAVIDROME_URL: "http://navidrome.lab254.lab.lan"
