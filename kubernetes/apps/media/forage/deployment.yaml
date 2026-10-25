@@ -26,7 +26,7 @@ spec:
         fsGroup: 65532
       containers:
         - name: forage
-          image: ghcr.io/db-vincent/forage:latest
+          image: ghcr.io/db-vincent/forage:0.4.0
           # `latest` is rebuilt on every push to forage's main branch, so always
           # re-check the registry rather than trusting a stale node cache.
           imagePullPolicy: Always
