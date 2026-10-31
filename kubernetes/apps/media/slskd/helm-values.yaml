@@ -48,9 +48,6 @@ controllers:
         image:
           repository: qmcgaw/gluetun
           tag: v3.41.3
-        metadata:
-          labels:
-            pod-security.kubernetes.io/enforce: privileged
         env:
           VPN_SERVICE_PROVIDER: private internet access
           VPN_TYPE: openvpn
