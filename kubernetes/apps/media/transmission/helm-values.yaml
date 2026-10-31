@@ -11,6 +11,27 @@ controllers:
           PUID: 1000
           PGID: 100
           TZ: Europe/Brussels
+      gluetun:
+        image:
+          repository: qmcgaw/gluetun
+          tag: v3.41.3
+        metadata:
+          labels:
+            pod-security.kubernetes.io/enforce: privileged
+        env:
+          VPN_SERVICE_PROVIDER: private internet access
+          VPN_TYPE: openvpn
+          SERVER_REGIONS: Netherlands
+          FIREWALL_INPUT_PORTS: "9091"          # ports your Service/ingress hits
+          FIREWALL_OUTBOUND_SUBNETS: "10.244.0.0/16,10.96.0.0/12,192.168.1.0/24"  # pod, service, LAN
+          DNS_KEEP_NAMESERVER: "on"             # keep cluster DNS working
+          DOT: "off"
+        envFrom:
+          - secretRef:
+              name: pia-credentials
+        securityContext:
+          capabilities:
+            add: ["NET_ADMIN"]
 
 service:
   main:
@@ -54,6 +75,14 @@ persistence:
         main:
           - path: /downloads
             subPath: downloads
+  tun:
+    type: hostPath
+    hostPath: /dev/net/tun
+    hostPathType: CharDevice
+    advancedMounts:
+      transmission:
+        gluetun:
+          - path: /dev/net/tun
 
 securityContext:
   container:

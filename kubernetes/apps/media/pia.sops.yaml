@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: pia-credentials
+stringData:
+  OPENVPN_USER: ENC[AES256_GCM,data:ALjODNJ9rd0=,iv:GziZi3uO+qLS3eXA9vTOX8oEgrtY2wyseINWYHpv2E4=,tag:oPBrFth0grzzKaJud9/PrQ==,type:str]
+  OPENVPN_PASSWORD: ENC[AES256_GCM,data:MQz9uz3vQl3+Uw==,iv:2DmaywQWma906xQt3mesJ225wRmTI29ztknoLIEVOgI=,tag:vTA0ligFGoSbcDYFCzntqw==,type:str]
+sops:
+  age:
+    - enc: |
+        -----BEGIN AGE ENCRYPTED FILE-----
+        YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBJSk1KcU1CZ2l6UnNBVjB1
+        VHdQM1NhUjdDTDBEMU9HZ1kyT1Zwa1hESFVrCmNPcEowQ3VyRndzcWZMQnh4VWNK
+        TEE4UWcxZ2loakpCa3pEYURobjhMM2MKLS0tIDNFM0k2S21hT1M4Zkc4L0hHc0lT
+        OXBGYlRNbjBGaSszeFRoZk9YbGZuUUUKMBgFkUZBuMn6Iyh4Qr/798z5iZqVPATc
+        WUZgGHFavjP+G21XiJC3Tn3PHWZvw4CAPilbTFkHhEAdg0N9CHnKag==
+        -----END AGE ENCRYPTED FILE-----
+      recipient: age1qjhqpf8v4u3exgumunm5ujnrf6cehqls7vceuk9w8ylgl3cpusyspvr6vm
+  encrypted_regex: ^(data|stringData)$
+  lastmodified: "2026-10-31T18:14:27Z"
+  mac: ENC[AES256_GCM,data:DV7WUfRwHZGuE6fu+4WmB2oSS+bosV3Y1puFIjQcPx/A6DH0TbaMvOIPN6dNsxNij77p7Anu2d0kyUVxRvchjWmeq8bikmy70+1YCqmv0jh6DguOaQUIVWpK/XbWmAMjMGM+7CinOqi/fN/feUR2z9yW4hq3Dyrd9n7RbqGECGw=,iv:7sw/Bhgn3i/atBBSUCbNOzQp2syMS+jXBwTZmfqrmTQ=,tag:IS3iItVCtd0ktNXMskeTkw==,type:str]
+  version: 3.13.3

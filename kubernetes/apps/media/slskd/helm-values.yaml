@@ -44,6 +44,27 @@ controllers:
         envFrom:
           - secretRef:
               name: slskd-credentials
+      gluetun:
+        image:
+          repository: qmcgaw/gluetun
+          tag: v3.41.3
+        metadata:
+          labels:
+            pod-security.kubernetes.io/enforce: privileged
+        env:
+          vpn_service_provider: private internet access
+          vpn_type: openvpn
+          server_regions: netherlands
+          firewall_input_ports: "9091"          # ports your service/ingress hits
+          firewall_outbound_subnets: "10.244.0.0/16,10.96.0.0/12,192.168.1.0/24"  # pod, service, lan
+          dns_keep_nameserver: "on"             # keep cluster dns working
+          dot: "off"
+        envfrom:
+          - secretref:
+              name: pia-credentials
+        securitycontext:
+          capabilities:
+            add: ["net_admin"]
 
 service:
   main:
@@ -90,3 +111,11 @@ persistence:
         prepare-downloads:
           - path: /downloads
             subPath: downloads
+  tun:
+    type: hostPath
+    hostPath: /dev/net/tun
+    hostPathType: CharDevice
+    advancedMounts:
+      transmission:
+        gluetun:
+          - path: /dev/net/tun
