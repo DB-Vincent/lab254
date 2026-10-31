@@ -113,6 +113,6 @@ persistence:
     hostPath: /dev/net/tun
     hostPathType: CharDevice
     advancedMounts:
-      transmission:
+      main:
         gluetun:
           - path: /dev/net/tun
