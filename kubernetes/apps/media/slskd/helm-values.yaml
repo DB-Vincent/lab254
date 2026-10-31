@@ -52,19 +52,19 @@ controllers:
           labels:
             pod-security.kubernetes.io/enforce: privileged
         env:
-          vpn_service_provider: private internet access
-          vpn_type: openvpn
-          server_regions: netherlands
-          firewall_input_ports: "9091"          # ports your service/ingress hits
-          firewall_outbound_subnets: "10.244.0.0/16,10.96.0.0/12,192.168.1.0/24"  # pod, service, lan
-          dns_keep_nameserver: "on"             # keep cluster dns working
-          dot: "off"
-        envfrom:
-          - secretref:
+          VPN_SERVICE_PROVIDER: private internet access
+          VPN_TYPE: openvpn
+          SERVER_REGIONS: Netherlands
+          FIREWALL_INPUT_PORTS: "9091"          # ports your Service/ingress hits
+          FIREWALL_OUTBOUND_SUBNETS: "10.244.0.0/16,10.96.0.0/12,192.168.1.0/24"  # pod, service, LAN
+          DNS_KEEP_NAMESERVER: "on"             # keep cluster DNS working
+          DOT: "off"
+        envFrom:
+          - secretRef:
               name: pia-credentials
-        securitycontext:
+        securityContext:
           capabilities:
-            add: ["net_admin"]
+            add: ["NET_ADMIN"]
 
 service:
   main:
