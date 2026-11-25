@@ -19,6 +19,23 @@ controllers:
           - |
             mkdir -p /downloads/slskd/.incomplete
             chmod 2775 /downloads/slskd /downloads/slskd/.incomplete
+      update-vpn-servers:
+        # gluetun's built-in PIA server list goes stale (PIA rotates server IPs,
+        # most recently the whole Netherlands range), which makes every OpenVPN
+        # handshake time out. Refresh it into the /gluetun volume shared with the
+        # gluetun container before it starts; gluetun's own UPDATER_PERIOD only
+        # runs once the tunnel is up, so it cannot recover from a dead list.
+        image:
+          repository: qmcgaw/gluetun
+          tag: v3.41.3
+          pullPolicy: IfNotPresent
+        command:
+          - /gluetun-entrypoint
+        args:
+          - update
+          - -enduser
+          - -providers
+          - private internet access
     containers:
       main:
         image:
@@ -116,3 +133,11 @@ persistence:
       main:
         gluetun:
           - path: /dev/net/tun
+  gluetun-servers:
+    type: emptyDir
+    advancedMounts:
+      main:
+        gluetun:
+          - path: /gluetun
+        update-vpn-servers:
+          - path: /gluetun

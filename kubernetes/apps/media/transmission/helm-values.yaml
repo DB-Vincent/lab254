@@ -1,6 +1,21 @@
 controllers:
   main:
     replicas: 1
+    initContainers:
+      update-vpn-servers:
+        # See slskd/helm-values.yaml: gluetun's built-in PIA server list goes
+        # stale and must be refreshed before gluetun starts.
+        image:
+          repository: qmcgaw/gluetun
+          tag: v3.41.3
+          pullPolicy: IfNotPresent
+        command:
+          - /gluetun-entrypoint
+        args:
+          - update
+          - -enduser
+          - -providers
+          - private internet access
     containers:
       main:
         image:
@@ -80,6 +95,14 @@ persistence:
       main:
         gluetun:
           - path: /dev/net/tun
+  gluetun-servers:
+    type: emptyDir
+    advancedMounts:
+      main:
+        gluetun:
+          - path: /gluetun
+        update-vpn-servers:
+          - path: /gluetun
 
 securityContext:
   container:
