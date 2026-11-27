@@ -5,7 +5,7 @@ controllers:
       main:
         image:
           repository: josh5/unmanic
-          tag: latest
+          tag: 0.4.0
           pullPolicy: IfNotPresent
         env:
           PUID: 1000
