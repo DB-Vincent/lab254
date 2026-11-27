@@ -18,7 +18,7 @@ service:
     type: ClusterIP
     ports:
       http:
-        port: 5921
+        port: 8888
 
 ingress:
   main:
