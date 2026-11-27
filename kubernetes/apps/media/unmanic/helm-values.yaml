@@ -1,0 +1,55 @@
+controllers:
+  main:
+    replicas: 1
+    containers:
+      main:
+        image:
+          repository: josh5/unmanic
+          tag: latest
+          pullPolicy: IfNotPresent
+        env:
+          PUID: 1000
+          PGID: 100
+          TZ: Europe/Brussels
+
+service:
+  main:
+    controller: main
+    type: ClusterIP
+    ports:
+      http:
+        port: 5921
+
+ingress:
+  main:
+    className: cilium
+    annotations:
+      ingress.cilium.io/loadbalancer-mode: shared
+    hosts:
+      - host: unmanic.lab254.lab.lan
+        paths:
+          - path: /
+            pathType: Prefix
+            service:
+              identifier: main
+              port: http
+
+persistence:
+  config:
+    enabled: true
+    storageClass: longhorn
+    size: 5Gi
+    accessMode: ReadWriteOnce
+    advancedMounts:
+      main:
+        main:
+          - path: /config
+  media:
+    enabled: true
+    type: nfs
+    server: 172.16.2.23
+    path: /Plex
+    advancedMounts:
+      main:
+        main:
+          - path: /media

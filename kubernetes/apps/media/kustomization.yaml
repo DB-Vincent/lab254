@@ -4,6 +4,7 @@ resources:
   - ./namespace.yaml
   - ./pia.sops.yaml
   - ./sonarr
+  - ./unmanic
   - ./radarr
   - ./bazarr
   - ./prowlarr
